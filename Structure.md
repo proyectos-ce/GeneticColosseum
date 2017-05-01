@@ -29,7 +29,10 @@
 
 
 ### Fitness calculation
-Labyrinth fitness = ??
+
+Labyrinth fitness = Percentage completed + bonus for finishing
+
 Colosseum fitness = (time alive)+(bonus * killed Gladiators)+(bonus * life)
+
 Total fitness = Labyrinth fitness + Colosseum fitness
 
