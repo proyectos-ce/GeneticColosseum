@@ -83,13 +83,12 @@ void PopulationManager::createNextGeneration()
     sortByFitness();
     setProbabilityForEach();
     std::vector<DNA> nextGeneration;
-    for (int i = 0; i < maxPopulation-1; ++i) {
+    for (int i = 0; i < maxPopulation; ++i) {
         DNA parent1 = obtainRandomFromPool();
         DNA parent2 = obtainRandomFromPool();
         DNA child = DNAManager::crossover(parent1, parent2);
         nextGeneration.push_back(child);
     }
-    nextGeneration.push_back(createRandom());
     updatePopulation(nextGeneration);
     generation++;
 }
@@ -105,7 +104,7 @@ void PopulationManager::setProbabilityForEach()
     }
 }
 void PopulationManager::sortByFitness(){
-    sortByFitness( &population, 0, population.size());
+    sortByFitness( &population, 0, population.size()-1);
 }
 
 void PopulationManager::sortByFitness( std::vector<DNA> *arr, int left, int right)
@@ -141,11 +140,19 @@ void PopulationManager::calcFitnessForEach()
     for (int i = 0; i < population.size(); ++i) {
         fitness=0;
         for (int j = 0; j < 11; ++j) {
+        if(i%2==0){
             fitness+=population[i].genes[j];
         }
-        population[i].setFitness(fitness);
-        if(fitness>1300){
-            std::cout<<"error"<<fitness<<std::endl;
+        else{
+            fitness+=population[i].genes[j];
         }
+        fitness=abs(fitness % 436 );
+        if(population[i].genes[2]>95){
+            fitness+=200;
+        }
+        population[i].setFitness(fitness);
+
+
+    }
     }
 }

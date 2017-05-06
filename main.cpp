@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     sprite.setPosition(300,200);
     sprite.setScale(0.3,0.3);
     PopulationManager population;
-    population.inicializePopulation(3000);
+    population.inicializePopulation(300);
     population.calcFitnessForEach();
 
     for (int i = 0; i < 100; ++i) {
@@ -29,6 +29,12 @@ int main(int argc, char *argv[])
         population.calcFitnessForEach();
         population.sortByFitness();
         std::cout << population.getPopulation().operator [](population.getPopulation().size()-1).getFitness() << std::endl;
+        DNA best=population.getPopulation().operator [](population.getPopulation().size()-1);
+        std::cout<<"genes";
+        for (int j = 0; j < 11; ++j) {
+            std::cout<<best.genes[j]<<"   ";
+        }
+        std::cout<<"___\n";
         }
 
 
