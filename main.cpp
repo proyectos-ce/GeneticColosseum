@@ -69,7 +69,7 @@ for (int i = 0; i < 4; ++i) {
     gladiator.setDna(DNAManager::createRandomDNA());
     gladiator.sprite.setScale(0.3,0.3);
     gladiator.setTexture(&Gtexture);
-    gladiator.setPosition(sf::Vector2f(600,200*i));
+    gladiator.setPosition(sf::Vector2f(500,50));
     gladiatorList.push_back(gladiator);
 }
 

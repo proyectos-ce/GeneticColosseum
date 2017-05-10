@@ -64,7 +64,7 @@ void Gladiator::update()
     //std::cout<<" asdasd" <<"\n";
 
     //std::cout<< getSpeed() <<"\n";
-    sprite.move(getSpeed(), 0);
+    sprite.move(getSpeed(), dna.genes[Weight]/50.f);
 }
 
 DNA Gladiator::getDna() const
