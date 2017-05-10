@@ -5,13 +5,15 @@
 #include <ctime>
 #include "dna.h"
 #include"populationmanager.h"
+#include"gladiator.h"
 
 //using namespace std;
 const int W = 1200;
 const int H = 800;
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!" << std::endl;
+    time_t t;
+    srand((unsigned) time(&t));
     sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum");
     app.setFramerateLimit(60);
     sf::Texture texture;
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
     population.inicializePopulation(300);
     population.calcFitnessForEach();
     std::cout<<HorizontalCost<<"HorizontalCost"<<std::endl;
+
     for (int i = 0; i < 100; ++i) {
         population.setProbabilityForEach();
         population.createNextGeneration();
@@ -39,10 +42,40 @@ int main(int argc, char *argv[])
 
         */
         }
+    sf::Texture bg1Tex;
+    sf::Sprite bg1Sprite;
+    bg1Tex.loadFromFile("Resources/background.png");
+    bg1Tex.setSmooth(false);
+    bg1Tex.setRepeated(true);
+    bg1Sprite.setTexture(bg1Tex);
+    bg1Sprite.setScale(20,20);
 
 
 
-    while (!app.isOpen()){
+
+
+
+
+
+std::vector<Gladiator> gladiatorList;
+Gladiator gladiator;
+sf::Texture Gtexture;
+Gtexture.setSmooth(true);
+Gtexture.loadFromFile("images/attack_1.png");
+gladiator.sprite.setScale(0.3,0.3);
+
+gladiator.setTexture(&Gtexture);
+for (int i = 0; i < 4; ++i) {
+    gladiator.setDna(DNAManager::createRandomDNA());
+    gladiator.sprite.setScale(0.3,0.3);
+    gladiator.setTexture(&Gtexture);
+    gladiator.setPosition(sf::Vector2f(600,200*i));
+    gladiatorList.push_back(gladiator);
+}
+
+    while (app.isOpen()){
+        app.draw(bg1Sprite);
+
         sf::Event event;
         while (app.pollEvent(event))
         {
@@ -50,9 +83,16 @@ int main(int argc, char *argv[])
                 app.close();
         }
         //sprite.draw(app);
-        sprite.move(2,0);
-        app.draw(sprite);
+        //sprite.move(2,0);
+        //app.draw(sprite);
+        for (int i = 0; i < gladiatorList.size(); ++i) {
+            gladiatorList[i].update();
+            gladiatorList[i].draw(app);
+        }
+        //gladiator.sprite.move(2,0);
+
         app.display();
+
     }
 
 
