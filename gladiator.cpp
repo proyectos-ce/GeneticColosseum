@@ -83,6 +83,11 @@ bool Gladiator::isAlive()
     return life>0;
 }
 
+void Gladiator::testCalcFitness(sf::Vector2f value)
+{
+    dna.setFitness(calcDistance(value));
+}
+
 float Gladiator::getShield() const
 {
     return shield;
@@ -116,8 +121,8 @@ void Gladiator::setSpeed(float value)
 
 float Gladiator::calcDistance(sf::Vector2f pos){
     sf::Vector2f distance;
-    distance.x = getPosition().x - pos.x;
-    distance.y = getPosition().y - pos.y;
+    distance.x = sprite.getPosition().x - pos.x;
+    distance.y = sprite.getPosition().y - pos.y;
     //float distance = 0;
     return  sqrt(pow(distance.x, 2) + pow(distance.y, 2));
 

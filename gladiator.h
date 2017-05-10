@@ -34,6 +34,7 @@ public:
     //void draw();
     void update();
     bool isAlive();
+    void testCalcFitness(sf::Vector2f value);
 
 
 

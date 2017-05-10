@@ -12,7 +12,6 @@ public:
     int getGeneration() const;
     void setGeneration(int value);
     void inicializePopulation(int maxPopulation);
-    void calcFitnessForEach();
     void setProbabilityForEach();
     void sortByFitness();
     std::vector<DNA> getPopulation() const;
@@ -21,9 +20,11 @@ public:
     void createNextGeneration();
     float getMutation() const;
     void setMutation(float value);
+    std::vector<DNA> population;
+
 
 private:
-    std::vector<DNA> population;
+    //std::vector<DNA> population;
     float mutation = 0.05;
     DNA createRandom();
     DNA obtainRandomFromPool();

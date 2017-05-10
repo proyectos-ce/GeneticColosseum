@@ -55,6 +55,7 @@ DNA createRandomDNA()
     DNA randomDNA;
     for (int i = 0; i < 11; ++i) {
         randomDNA.genes[i] = DNAManager::getRandomGene();
+        std::cout<<randomDNA.genes[i]<<"\n";
     }
     return randomDNA;
 }
