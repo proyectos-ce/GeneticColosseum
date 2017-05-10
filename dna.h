@@ -33,7 +33,7 @@ enum genes {
    AtractionToEnemies,
    EnemyDetectionRadius,
    GladiatorDetectionRadius,
-    Attack,
+   Attack,
    Shield,
    Weight
 };

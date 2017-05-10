@@ -60,6 +60,7 @@ DNA PopulationManager::obtainRandomFromPool()
 
 void PopulationManager::inicializePopulation(int maxPopulation)
 {
+
     this->maxPopulation=maxPopulation;
     population.clear();
     for (int i = 0; i < maxPopulation; ++i) {
