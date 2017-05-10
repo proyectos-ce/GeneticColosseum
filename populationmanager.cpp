@@ -86,11 +86,21 @@ void PopulationManager::createNextGeneration()
     for (int i = 0; i < maxPopulation; ++i) {
         DNA parent1 = obtainRandomFromPool();
         DNA parent2 = obtainRandomFromPool();
-        DNA child = DNAManager::crossover(parent1, parent2);
+        DNA child = DNAManager::crossover(parent1, parent2, mutation);
         nextGeneration.push_back(child);
     }
     updatePopulation(nextGeneration);
     generation++;
+}
+
+float PopulationManager::getMutation() const
+{
+    return mutation;
+}
+
+void PopulationManager::setMutation(float value)
+{
+    mutation = value;
 }
 
 void PopulationManager::setProbabilityForEach()
@@ -107,30 +117,30 @@ void PopulationManager::sortByFitness(){
     sortByFitness( &population, 0, population.size()-1);
 }
 
-void PopulationManager::sortByFitness( std::vector<DNA> *arr, int left, int right)
+void PopulationManager::sortByFitness(std::vector<DNA> *list, int left, int right)
 {
     int i = left, j = right;
     DNA tmp;
-    int pivot = arr->operator []((left + right) / 2).getFitness();
+    int pivot = list->operator []((left + right) / 2).getFitness();
     /* partition */
     while (i <= j) {
-        while (arr->operator [](i).getFitness() < pivot)
+        while (list->operator [](i).getFitness() < pivot)
             i++;
-        while (arr->operator [](j).getFitness() > pivot)
+        while (list->operator [](j).getFitness() > pivot)
             j--;
         if (i <= j) {
-            tmp = arr->operator [](i);
-            arr->operator [](i) = arr->operator [](j);
-            arr->operator [](j)= tmp;
+            tmp = list->operator [](i);
+            list->operator [](i) = list->operator [](j);
+            list->operator [](j)= tmp;
             i++;
             j--;
         }
     };
     /* recursion */
     if (left < j)
-        sortByFitness(arr, left, j);
+        sortByFitness(list, left, j);
     if (i < right)
-        sortByFitness(arr, i, right);
+        sortByFitness(list, i, right);
 
 }
 
@@ -151,8 +161,6 @@ void PopulationManager::calcFitnessForEach()
             fitness+=200;
         }
         population[i].setFitness(fitness);
-
-
     }
     }
 }

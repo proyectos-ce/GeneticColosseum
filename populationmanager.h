@@ -19,9 +19,12 @@ public:
     void setPopulation(const std::vector<DNA> &value);
     void updatePopulation(std::vector<DNA> value);
     void createNextGeneration();
+    float getMutation() const;
+    void setMutation(float value);
 
 private:
     std::vector<DNA> population;
+    float mutation = 0.05;
     DNA createRandom();
     DNA obtainRandomFromPool();
     int generation;

@@ -30,13 +30,23 @@ void DNA::setFitness(float value)
     fitness = value;
 }
 
+std::string DNA::getNameHASH() const
+{
+    return nameHASH;
+}
+
+void DNA::setNameHASH(const std::string &value)
+{
+    nameHASH = value;
+}
+
 
 namespace DNAManager {
 
 int getRandomGene(int geneNumber)
 {
     int gene = std::rand() % 101;
-    std::cout << gene<< '\n';;
+    //std::cout << gene<< '\n';;
     return gene;
 }
 
@@ -49,11 +59,11 @@ DNA createRandomDNA()
     return randomDNA;
 }
 
-DNA crossover(DNA parent1, DNA parent2)
+DNA crossover(DNA parent1, DNA parent2, float mutation)
 {
     DNA child;
     for (int i = 0; i < 11; ++i) {
-        if((float)(rand()) /  (float)(RAND_MAX) < 0.05){
+        if((float)(rand()) /  (float)(RAND_MAX) < mutation){
             child.genes[i]==DNAManager::getRandomGene();
         }
         else {

@@ -22,19 +22,22 @@ int main(int argc, char *argv[])
     PopulationManager population;
     population.inicializePopulation(300);
     population.calcFitnessForEach();
-
+    std::cout<<HorizontalCost<<"HorizontalCost"<<std::endl;
     for (int i = 0; i < 100; ++i) {
         population.setProbabilityForEach();
         population.createNextGeneration();
         population.calcFitnessForEach();
         population.sortByFitness();
-        std::cout << population.getPopulation().operator [](population.getPopulation().size()-1).getFitness() << std::endl;
         DNA best=population.getPopulation().operator [](population.getPopulation().size()-1);
+        /*
+        std::cout << population.getPopulation().operator [](population.getPopulation().size()-1).getFitness() << std::endl;
         std::cout<<"genes";
         for (int j = 0; j < 11; ++j) {
             std::cout<<best.genes[j]<<"   ";
         }
         std::cout<<"___\n";
+
+        */
         }
 
 
