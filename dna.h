@@ -7,17 +7,17 @@ class DNA
 public:
     DNA();
     int genes[11];
-    float getProbability() const;
-    void setProbability(float value);
-    float getFitness() const;
-    void setFitness(float value);
+    double getProbability() const;
+    void setProbability(double value);
+    double getFitness() const;
+    void setFitness(double value);
     std::string getNameHASH() const;
     void setNameHASH(const std::string &value);
 
 private:
     std::string nameHASH;
-    float fitness;
-    float probability;
+    double fitness =0;
+    double probability=0;
 };
 
 

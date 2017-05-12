@@ -46,9 +46,9 @@ DNA PopulationManager::createRandom()
 
 DNA PopulationManager::obtainRandomFromPool()
 {
-    float prob =  (float)(rand()) /  (float)(RAND_MAX);
+    double prob =  (double)(rand()) /  (double)(RAND_MAX);
     DNA randomMate;
-    for (int i = population.size(); i >=0; --i) {
+    for (int i = 0; i < population.size(); ++i) {
         prob-=population[i].getProbability();
         if(prob<=0){
             randomMate = population[i];
@@ -80,7 +80,6 @@ void PopulationManager::setMaxPopulation(int value)
 
 void PopulationManager::createNextGeneration()
 {
-    //calcFitnessForEach();
     sortByFitness();
     setProbabilityForEach();
     std::vector<DNA> nextGeneration;
@@ -122,7 +121,7 @@ void PopulationManager::sortByFitness(std::vector<DNA> *list, int left, int righ
 {
     int i = left, j = right;
     DNA tmp;
-    float pivot = list->operator []((left + right) / 2).getFitness();
+    double pivot = list->operator []((left + right) / 2).getFitness();
     while (i <= j) {
           while (list->operator [](i).getFitness() < pivot)
                 i++;

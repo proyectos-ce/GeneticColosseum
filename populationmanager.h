@@ -25,11 +25,11 @@ public:
 
 private:
     //std::vector<DNA> population;
-    float mutation = 0.05;
+    float mutation = 0.005;
     DNA createRandom();
     DNA obtainRandomFromPool();
-    int generation;
-    int maxPopulation;
+    int generation = 0;
+    int maxPopulation=0;
     int getMaxPopulation() const;
     void setMaxPopulation(int value);
     void sortByFitness(std::vector<DNA> *, int left, int right);

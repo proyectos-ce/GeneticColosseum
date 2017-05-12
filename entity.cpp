@@ -46,10 +46,11 @@ void Entity::setPosition(const sf::Vector2f &value)
 
     position = value;
     sf::Vector2f pos = position;
+    pos.x -= sprite.getGlobalBounds().width/2;
+    pos.y -= sprite.getGlobalBounds().height;
     //pos.x -= sprite.getLocalBounds().width/2;
     //pos.y -= sprite.getLocalBounds().height;
-    pos.x -= texture->getSize().x/2;
-    pos.x -= texture->getSize().y/2;
+    //std::cout<<"x   "<< pos.x <<"   y"<< pos.y <<"\n";
     sprite.setPosition(pos);
 
 }
