@@ -12,8 +12,8 @@
 
 #include <SFML/Audio.hpp>
 #include <fstream>
-
-#define MAXSPEED 4
+#define Xspeed 16
+#define MAXSPEED 4*Xspeed
 #define ATTACK_WAIT_TIME 1000
 #define DEFEND_WAIT_TIME 1000
 #define ATTACK_RADIUS 50
@@ -34,6 +34,7 @@ public:
     //void draw();
     void update();
     bool isAlive();
+    void testCalcFitness(sf::Vector2f value);
 
 
 

@@ -46,9 +46,9 @@ DNA PopulationManager::createRandom()
 
 DNA PopulationManager::obtainRandomFromPool()
 {
-    float prob =  (float)(rand()) /  (float)(RAND_MAX);
+    double prob =  (double)(rand()) /  (double)(RAND_MAX);
     DNA randomMate;
-    for (int i = population.size(); i >=0; --i) {
+    for (int i = 0; i < population.size(); ++i) {
         prob-=population[i].getProbability();
         if(prob<=0){
             randomMate = population[i];
@@ -80,7 +80,6 @@ void PopulationManager::setMaxPopulation(int value)
 
 void PopulationManager::createNextGeneration()
 {
-    //calcFitnessForEach();
     sortByFitness();
     setProbabilityForEach();
     std::vector<DNA> nextGeneration;
@@ -122,8 +121,31 @@ void PopulationManager::sortByFitness(std::vector<DNA> *list, int left, int righ
 {
     int i = left, j = right;
     DNA tmp;
+    double pivot = list->operator []((left + right) / 2).getFitness();
+    while (i <= j) {
+          while (list->operator [](i).getFitness() < pivot)
+                i++;
+          while (list->operator [](j).getFitness() > pivot)
+                j--;
+          if (i <= j) {
+                tmp = list->operator [](i);
+                list->operator [](i) = list->operator [](j);
+                list->operator [](j) = tmp;
+                i++;
+                j--;
+          }
+    };
+    if (left < j)
+          sortByFitness(list, left, j);
+    if (i < right)
+          sortByFitness(list, i, right);
+    }
+
+/*
+    int i = left, j = right;
+    DNA tmp;
     int pivot = list->operator []((left + right) / 2).getFitness();
-    /* partition */
+
     while (i <= j) {
         while (list->operator [](i).getFitness() < pivot)
             i++;
@@ -137,31 +159,9 @@ void PopulationManager::sortByFitness(std::vector<DNA> *list, int left, int righ
             j--;
         }
     };
-    /* recursion */
     if (left < j)
         sortByFitness(list, left, j);
     if (i < right)
         sortByFitness(list, i, right);
 
-}
-
-void PopulationManager::calcFitnessForEach()
-{
-    int fitness = 0;
-    for (int i = 0; i < population.size(); ++i) {
-        fitness=0;
-        for (int j = 0; j < 11; ++j) {
-        if(i%2==0){
-            fitness+=population[i].genes[j];
-        }
-        else{
-            fitness+=population[i].genes[j];
-        }
-        fitness=abs(fitness % 436 );
-        if(population[i].genes[2]>95){
-            fitness+=200;
-        }
-        population[i].setFitness(fitness);
-    }
-    }
-}
+*/

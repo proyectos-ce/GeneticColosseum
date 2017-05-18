@@ -31,7 +31,7 @@ void Gladiator::attack()
 void Gladiator::calcVariables()
 {
      setSpeed(MAXSPEED-MAXSPEED*0.6*(dna.genes[Weight]/100.f));
-     std::cout<<" weight"<<dna.genes[Weight]<<"\n";
+     //std::cout<<" weight"<<dna.genes[Weight]<<"\n";
      setDamage(dna.genes[Attack]+dna.genes[Attack]*(0.3*dna.genes[Weight]/100.f));
      setShield(dna.genes[Shield]+dna.genes[Shield]*(0.3*dna.genes[Weight]/100.f));
 
@@ -64,7 +64,7 @@ void Gladiator::update()
     //std::cout<<" asdasd" <<"\n";
 
     //std::cout<< getSpeed() <<"\n";
-    sprite.move(getSpeed(), 0);
+    sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
 }
 
 DNA Gladiator::getDna() const
@@ -81,6 +81,11 @@ void Gladiator::setDna(const DNA &value)
 bool Gladiator::isAlive()
 {
     return life>0;
+}
+
+void Gladiator::testCalcFitness(sf::Vector2f value)
+{
+    dna.setFitness(pow(2000-calcDistance(value),2));
 }
 
 float Gladiator::getShield() const
@@ -116,8 +121,8 @@ void Gladiator::setSpeed(float value)
 
 float Gladiator::calcDistance(sf::Vector2f pos){
     sf::Vector2f distance;
-    distance.x = getPosition().x - pos.x;
-    distance.y = getPosition().y - pos.y;
+    distance.x = sprite.getPosition().x - pos.x;
+    distance.y = sprite.getPosition().y - pos.y;
     //float distance = 0;
     return  sqrt(pow(distance.x, 2) + pow(distance.y, 2));
 
@@ -133,7 +138,7 @@ void Gladiator::sortByDistance(std::vector<Gladiator> *list, int left, int right
     int i = left, j = right;
     Gladiator tmp;
     //int pivot = list->operator []((left + right) / 2).getFitness();
-    int pivot = calcDistance(list->operator[]((left + right) / 2).getPosition());
+    float pivot = calcDistance(list->operator[]((left + right) / 2).getPosition());
     /* partition */
     while (i <= j) {
         //while (list->operator [](i).getFitness() < pivot)
