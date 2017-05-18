@@ -6,12 +6,17 @@
 #include "dna.h"
 #include"populationmanager.h"
 #include"gladiator.h"
+#include "Grid.h"
 
 //using namespace std;
 const int W = 1200;
 const int H = 800;
 int main(int argc, char *argv[])
 {
+    Grid grid;
+    grid.printGrid();
+    grid.solve();
+    grid.printPath();
     time_t t;
     srand((unsigned) time(&t));
     sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum");

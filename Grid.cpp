@@ -3,6 +3,7 @@
 //
 
 
+#include <cmath>
 #include "Grid.h"
 
 Grid::Grid() {
@@ -40,7 +41,7 @@ bool Grid::contains(std::vector<Cell*> vector, Cell* cell){
 }
 
 int Grid::heuristic(Cell* a, Cell* b){
-    return b->row-a->row+(b->col-a->col);
+    return sqrt((b->row-a->row)*(b->row-a->row)+(b->col-a->col)*(b->col-a->col));
 }
 
 void Grid::addNeighbors(){
@@ -109,7 +110,7 @@ void Grid::solve(){
                     path.push_back(current->previous);
                     current = current->previous;
                 }
-                std::cout << "DONE!";
+
                 notSolved = false;
             }
 
@@ -147,15 +148,6 @@ void Grid::solve(){
         }
     }
 
-    std::cout << "open" << std::endl;
-    for (i = 0; i < openSet.size(); i++){
-        std::cout << openSet[i]->row << openSet[i]->col << std::endl;
-    }
-
-    std::cout << "closed" << std::endl;
-    for (i = 0; i < closedSet.size(); i++){
-        std::cout << closedSet[i]->row << closedSet[i]->col << std::endl;
-    }
 
 }
 
@@ -164,7 +156,7 @@ void Grid::printGrid(){
     int i, j;
     for (i = 0; i < N; i++){
         for (j = 0; j < N; j++){
-            std::cout <<  "[" << grid[i][j]->row << ", " << grid[i][j]->col << "] ";
+            std::cout <<  grid[i][j]->obstacle << ", ";
         }
         std::cout << std::endl;
     }
