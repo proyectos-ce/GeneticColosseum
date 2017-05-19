@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     texture.loadFromFile("Resources/knight.png");
     sf::Sprite sprite(texture);
     sprite.setPosition(300,200);
-    sprite.setScale(0.3,0.3);
+    sprite.setScale(-0.3,-0.3);
 
     sf::Texture bg1Tex;
     sf::Sprite bg1Sprite;
@@ -30,32 +30,34 @@ int main(int argc, char *argv[])
     bg1Sprite.setTexture(bg1Tex);
     bg1Sprite.setScale(20,20);
 
-
-
-
-
-
-
-
     std::vector<Gladiator> gladiatorList;
     Gladiator gladiator;
     sf::Texture Gtexture;
     Gtexture.setSmooth(true);
     Gtexture.loadFromFile("Resources/knight.png");
-    gladiator.sprite.setScale(0.3,0.3);
+    gladiator.sprite.setScale(-0.3,-0.3);
 
     sf::Clock cycleClock;
     cycleClock.restart();
     std::vector<DNA> resultPop;
 
     PopulationManager population;
-    population.inicializePopulation(500);
+    population.inicializePopulation(10);
 
     sf::CircleShape target(10);
     target.setFillColor(sf::Color(150, 50, 250));
     target.setPosition(1000,600);
 
 
+    std::list<sf::Vector2f> labyrinthDirections;
+    labyrinthDirections.push_back(  sf::Vector2f( 200  ,100   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 400  ,100   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 400  ,300   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 600  ,500   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 800  ,100   ) );
+    //labyrinthDirections.push_back(  sf::Vector2f( 450  ,300   ) );
+    //labyrinthDirections.push_back(  sf::Vector2f( 800  ,600   ) );
+    //labyrinthDirections.push_back(  sf::Vector2f( 100  ,100   ) );
 
     while (app.isOpen()){
 
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
             if (event.type == sf::Event::Closed)
                 app.close();
         }
-        for (int gen = 0; gen < 200; ++gen) {
+        for (int gen = 0; gen < 1; ++gen) {
             resultPop.clear();
             gladiatorList.clear();
 
@@ -73,13 +75,13 @@ int main(int argc, char *argv[])
                 gladiator.setDna(population.getPopulation()[i]);
                 gladiator.setTexture(&Gtexture);
                 gladiator.sprite.setScale(0.3,0.3);
-                gladiator.setPosition(sf::Vector2f(150,150));
-
+                gladiator.setPosition(sf::Vector2f(300,300));
+                gladiator.setLabyrinthDirections(labyrinthDirections);
                 gladiatorList.push_back(gladiator);
             }
 
 
-            while (cycleClock.getElapsedTime().asMilliseconds() < 4000/Xspeed) {
+            while (cycleClock.getElapsedTime().asMilliseconds() < 40000/Xspeed) {
                 app.draw(bg1Sprite);
                 for (int i = 0; i < gladiatorList.size(); ++i) {
                     gladiatorList[i].update();

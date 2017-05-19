@@ -59,12 +59,37 @@ void Gladiator::attack(Gladiator *enemy)
     }
 }
 
+bool Gladiator::moveTo(sf::Vector2f pos)
+{
+    bool result = true;
+    sf::Vector2f movent(0,0);
+    if(calcDistance(pos)>NEAR_TRIGGER_RADIUS){
+        result = false;
+        float catX =   pos.x - getPosition().x;
+        float catY =  pos.y-getPosition().y ;
+        movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)));
+        movent.y = getSpeed()*(catY/(fabs(catX)+fabs(catY)));
+        sprite.move(movent);
+    }
+    return result;
+}
+
 void Gladiator::update()
 {
-    //std::cout<<" asdasd" <<"\n";
+    std::cout<< "size"<<labyrinthDirections.size() <<"\n";
+    if(labyrinthDirections.size()>0){
+        if(moveTo(labyrinthDirections.front())){
+            labyrinthDirections.pop_front();
+            std::cout<< "size"<<labyrinthDirections.size() <<"\n";
+        }
+        //labyrinthDirections[0];
+    }
+    else if(fighting){
 
-    //std::cout<< getSpeed() <<"\n";
-    sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
+    }
+    else{
+    //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
+    }
 }
 
 DNA Gladiator::getDna() const
@@ -76,6 +101,16 @@ void Gladiator::setDna(const DNA &value)
 {
     dna = value;
     calcVariables();
+}
+
+std::list<sf::Vector2f> Gladiator::getLabyrinthDirections() const
+{
+    return labyrinthDirections;
+}
+
+void Gladiator::setLabyrinthDirections(const std::list<sf::Vector2f> &value)
+{
+    labyrinthDirections = value;
 }
 
 bool Gladiator::isAlive()
