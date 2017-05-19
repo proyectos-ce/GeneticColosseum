@@ -2,6 +2,7 @@
 #define POPULATIONMANAGER_H
 #include <vector>
 #include "dna.h"
+#define MUTATION  0.0005
 
 class PopulationManager
 {
@@ -18,14 +19,11 @@ public:
     void setPopulation(const std::vector<DNA> &value);
     void updatePopulation(std::vector<DNA> value);
     void createNextGeneration();
-    float getMutation() const;
-    void setMutation(float value);
     std::vector<DNA> population;
 
 
 private:
     //std::vector<DNA> population;
-    float mutation = 0.005;
     DNA createRandom();
     DNA obtainRandomFromPool();
     int generation = 0;

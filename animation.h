@@ -19,11 +19,7 @@ class AnimationRoutine
 {
 public:
     AnimationRoutine();
-
 };
-
-
-
 
 enum Animations {
     Walk,

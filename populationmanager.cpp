@@ -86,22 +86,13 @@ void PopulationManager::createNextGeneration()
     for (int i = 0; i < maxPopulation; ++i) {
         DNA parent1 = obtainRandomFromPool();
         DNA parent2 = obtainRandomFromPool();
-        DNA child = DNAManager::crossover(parent1, parent2, mutation);
+        DNA child = DNAManager::crossover(parent1, parent2, MUTATION);
         nextGeneration.push_back(child);
     }
     updatePopulation(nextGeneration);
     generation++;
 }
 
-float PopulationManager::getMutation() const
-{
-    return mutation;
-}
-
-void PopulationManager::setMutation(float value)
-{
-    mutation = value;
-}
 
 void PopulationManager::setProbabilityForEach()
 {
