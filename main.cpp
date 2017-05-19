@@ -37,17 +37,6 @@ int main(int argc, char *argv[])
     while(screen >=0){
         screen = screens[screen]->run(app);
 
-
-    std::list<sf::Vector2f> labyrinthDirections;
-    labyrinthDirections.push_back(  sf::Vector2f( 200  ,100   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 400  ,100   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 400  ,300   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 600  ,500   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 800  ,100   ) );
-    //labyrinthDirections.push_back(  sf::Vector2f( 450  ,300   ) );
-    //labyrinthDirections.push_back(  sf::Vector2f( 800  ,600   ) );
-    //labyrinthDirections.push_back(  sf::Vector2f( 100  ,100   ) );
-
     }
 
     return EXIT_SUCCESS;

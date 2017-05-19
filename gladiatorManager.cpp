@@ -11,7 +11,7 @@ gladiatorManager::gladiatorManager() {
 
     sprite.setTexture(texture);
     sprite.setPosition(300,200);
-    sprite.setScale(0.3,0.3);
+    sprite.setScale(-0.3,-0.3);
 
     bg1Tex.loadFromFile("Resources/background.png");
     bg1Tex.setSmooth(false);
@@ -21,11 +21,20 @@ gladiatorManager::gladiatorManager() {
 
     Gtexture.setSmooth(true);
     Gtexture.loadFromFile("Resources/knight.png");
-    gladiator.sprite.setScale(0.3,0.3);
+    gladiator.sprite.setScale(-0.3,-0.3);
 
     cycleClock.restart();
 
-    population.inicializePopulation(500);
+    population.inicializePopulation(10);
+
+
+
+    labyrinthDirections.push_back(  sf::Vector2f( 200  ,100   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 400  ,100   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 400  ,300   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 600  ,500   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 800  ,100   ) );
+
 
 }
 
@@ -41,7 +50,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
                 return 0;
         }
 
-        for (int gen = 0; gen < 200; ++gen) {
+        for (int gen = 0; gen < 1; ++gen) {
             resultPop.clear();
             gladiatorList.clear();
 
@@ -49,8 +58,8 @@ int gladiatorManager::run(sf::RenderWindow &window) {
                 gladiator.setDna(population.getPopulation()[i]);
                 gladiator.setTexture(&Gtexture);
                 gladiator.sprite.setScale(0.3,0.3);
-                gladiator.setPosition(sf::Vector2f(150,150));
-
+                gladiator.setPosition(sf::Vector2f(300,300));
+                gladiator.setLabyrinthDirections(labyrinthDirections);
                 gladiatorList.push_back(gladiator);
             }
 

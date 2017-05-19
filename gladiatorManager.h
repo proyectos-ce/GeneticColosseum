@@ -34,6 +34,7 @@ public:
     sf::Clock cycleClock;
 
     std::vector<DNA> resultPop;
+    std::list<sf::Vector2f> labyrinthDirections;
 
     PopulationManager population;
 
