@@ -35,10 +35,10 @@ void Entity::update(float time)
 
 sf::Vector2f Entity::getPosition()
 {
-    //sf::Vector2f pos = sprite.getPosition();
-    //pos.x += sprite.getLocalBounds().width/2;
-   // pos.y += sprite.getLocalBounds().width/2;
-    return position;
+    sf::Vector2f pos = sprite.getPosition();
+    pos.x += sprite.getGlobalBounds().width/2;
+    pos.y += sprite.getGlobalBounds().height;
+    return pos;
 }
 
 void Entity::setPosition(const sf::Vector2f &value)
