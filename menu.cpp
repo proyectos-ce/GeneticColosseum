@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "menu.h"
+#include "http.h"
 
 menu::menu() {}
 
@@ -88,7 +89,7 @@ int menu::run(sf::RenderWindow &window) {
                         break;
                     case sf::Keyboard::Return:
                         if(menuNumber==1)
-                            return 1;
+                            Http::sendScore(333, "joseph");
                     default:
                         break;
                 }
