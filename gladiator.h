@@ -43,6 +43,9 @@ public:
     std::vector<Gladiator> *getGladiatorsList() const;
     void setGladiatorsList(std::vector<Gladiator> *value);
 
+    sf::FloatRect getBorders() const;
+    void setBorders(const sf::FloatRect &value);
+
 private:
     sf::Clock attackClock;
     sf::Clock defendClock;
@@ -52,14 +55,12 @@ private:
     float shield = 0;
     bool fighting = false;
     std::list<sf::Vector2f> labyrinthDirections;
-
+    void move(sf::Vector2f movement, bool checkBorders = false);
     bool defend(int damage);
     void attack();
     void attack(Gladiator *enemy);
-    bool moveTo(sf::Vector2f pos); // verdadero si ha llegado
-
-
-
+    bool moveTo(sf::Vector2f pos, bool checkBorders= false); // verdadero si ha llegado
+    sf::FloatRect borders;
     void calcVariables();
     void increaseFitness(int value);
     //sf::Sprite sprite;

@@ -32,7 +32,6 @@ void Gladiator::attack()
 void Gladiator::calcVariables()
 {
      setSpeed(MAXSPEED-MAXSPEED*0.6*(dna.genes[Weight]/100.f));
-     //std::cout<<" weight"<<dna.genes[Weight]<<"\n";
      setDamage(dna.genes[Attack]+dna.genes[Attack]*(0.3*dna.genes[Weight]/100.f));
      setShield(dna.genes[Shield]+dna.genes[Shield]*(0.3*dna.genes[Weight]/100.f));
 
@@ -51,6 +50,23 @@ std::vector<Gladiator> *Gladiator::getGladiatorsList() const
 void Gladiator::setGladiatorsList(std::vector<Gladiator> *value)
 {
     gladiatorsList = value;
+}
+
+void Gladiator::move(sf::Vector2f movement, bool checkBorders)
+{
+    if(checkBorders){
+        sf::Vector2f nextPos;
+        nextPos.x = sprite.getGlobalBounds().left + movement.x;
+        nextPos.y = sprite.getGlobalBounds().top + movement.y;
+
+        if(! (borders.contains(nextPos.x, nextPos.y) &&
+                borders.contains(nextPos.x+ sprite.getGlobalBounds().width, nextPos.y+sprite.getGlobalBounds().height) ) ){
+            movement.x=0;
+            movement.y=0;
+        }
+    }
+        sprite.move(movement);
+
 }
 
 float Gladiator::getDamage() const
@@ -72,7 +88,7 @@ void Gladiator::attack(Gladiator *enemy)
     }
 }
 
-bool Gladiator::moveTo(sf::Vector2f pos)
+bool Gladiator::moveTo(sf::Vector2f pos, bool checkBorders)
 {
     bool result = true;
 
@@ -84,13 +100,23 @@ bool Gladiator::moveTo(sf::Vector2f pos)
         float catY =  pos.y -getPosition().y ;
         movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)));
         movent.y = getSpeed()*(catY/(fabs(catX)+fabs(catY)));
-        sprite.move(movent);
+        move(movent, checkBorders);
         if (getPosition().x>450){
         //std::cout << "LLEGUE AL COLISEO >:v" <<std::endl;
     }
     }
 
     return result;
+}
+
+sf::FloatRect Gladiator::getBorders() const
+{
+    return borders;
+}
+
+void Gladiator::setBorders(const sf::FloatRect &value)
+{
+    borders = value;
 }
 
 void Gladiator::update()
@@ -107,7 +133,7 @@ void Gladiator::update()
 
     }
     else{
-        moveTo(getClosest(300,1)[0]->getPosition());
+        moveTo(getClosest(300,1)[0]->getPosition(),   true);
         attack();
 
         //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);

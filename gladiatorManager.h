@@ -31,7 +31,7 @@ public:
     Gladiator gladiator;
     sf::Texture Gtexture1;
     sf::Texture Gtexture2;
-
+    sf::FloatRect borders;
 
     sf::Clock cycleClock;
 
@@ -41,6 +41,8 @@ public:
 
     int run(sf::RenderWindow &window);
 
+    sf::FloatRect getBorders() const;
+    void setBorders(const sf::FloatRect &value);
 };
 
 #endif //GENETICCOLOSSEUM_GLADIATORMANAGER_H

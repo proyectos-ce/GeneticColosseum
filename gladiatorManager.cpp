@@ -31,9 +31,22 @@ gladiatorManager::gladiatorManager() {
 
     population.inicializePopulation(10);
 
+    borders.height = 800;
+    borders.width=700;
+    borders.top=10;
+    borders.left=450;
 
 
+}
 
+sf::FloatRect gladiatorManager::getBorders() const
+{
+    return borders;
+}
+
+void gladiatorManager::setBorders(const sf::FloatRect &value)
+{
+    borders = value;
 }
 
 int gladiatorManager::run(sf::RenderWindow &window) {
@@ -53,6 +66,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
         gladiator.setPosition(sf::Vector2f(300,300));
         gladiator.setLabyrinthDirections(labyrinthDirections);
         gladiator.setGladiatorsList(&gladiatorList2);
+        gladiator.setBorders(borders);
         gladiatorList1.push_back(gladiator);
     }
 
@@ -70,6 +84,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
         gladiator.setPosition(sf::Vector2f(300,300));
         gladiator.setLabyrinthDirections(labyrinthDirections);
         gladiator.setGladiatorsList(&gladiatorList1);
+        gladiator.setBorders(borders);
 
         gladiatorList2.push_back(gladiator);
     }
@@ -109,9 +124,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
                     gladiatorList1[i].draw(window);
                     }
                     else{
-                        //gladiatorList1.erase(gladiatorList1.begin()+i);
                         gladiatorList1[i].setPosition(sf::Vector2f(100000,100000));
-
                     }
                 }
                 for (int i = 0; i < gladiatorList2.size(); ++i) {
@@ -123,9 +136,6 @@ int gladiatorManager::run(sf::RenderWindow &window) {
                         gladiatorList2[i].setPosition(sf::Vector2f(100000,100000));
                     }
                 }
-
-
-
                 window.display();
 
     }
