@@ -26,9 +26,11 @@ public:
     sf::Texture bg1Tex;
     sf::Sprite bg1Sprite;
 
-    std::vector<Gladiator> gladiatorList;
+    std::vector<Gladiator> gladiatorList1;
+    std::vector<Gladiator> gladiatorList2;
     Gladiator gladiator;
-    sf::Texture Gtexture;
+    sf::Texture Gtexture1;
+    sf::Texture Gtexture2;
 
 
     sf::Clock cycleClock;

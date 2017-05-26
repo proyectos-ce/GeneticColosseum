@@ -21,8 +21,10 @@ gladiatorManager::gladiatorManager() {
 
 
 
-    Gtexture.setSmooth(true);
-    Gtexture.loadFromFile("Resources/knight.png");
+    Gtexture1.setSmooth(true);
+    Gtexture1.loadFromFile("Resources/bronze.png");
+    Gtexture2.setSmooth(true);
+    Gtexture2.loadFromFile("Resources/black.png");
     gladiator.sprite.setScale(-0.3,-0.3);
 
     cycleClock.restart();
@@ -36,19 +38,40 @@ gladiatorManager::gladiatorManager() {
 
 int gladiatorManager::run(sf::RenderWindow &window) {
     std::list<sf::Vector2f> labyrinthDirections;
-    labyrinthDirections.push_back(  sf::Vector2f( 500  ,500  ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 700  ,500   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 400  ,300   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 600  ,500   ) );
-    labyrinthDirections.push_back(  sf::Vector2f( 100  ,100   ) );
 
-    for (int j = 0; j < 3; ++j) {
-        gladiator.setDna(population.getPopulation()[1]);
-        gladiator.setTexture(&Gtexture);
+    for (int j = 0; j <10 ; ++j) {
+        labyrinthDirections.clear();
+        labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,500+50*j   ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 400+50*j  ,300+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,500+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 100+50*j  ,100+50*j    ) );
+
+        gladiator.setDna(population.getPopulation()[j]);
+        gladiator.setTexture(&Gtexture1);
         gladiator.sprite.setScale(0.1,0.1);
         gladiator.setPosition(sf::Vector2f(300,300));
         gladiator.setLabyrinthDirections(labyrinthDirections);
-        gladiatorList.push_back(gladiator);
+        gladiator.setGladiatorsList(&gladiatorList2);
+        gladiatorList1.push_back(gladiator);
+    }
+
+    for (int j = 0; j <10 ; ++j) {
+        labyrinthDirections.clear();
+        labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j   ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 900+50*j  ,500+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,300+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 400+50*j  ,100+50*j    ) );
+
+        gladiator.setDna(population.getPopulation()[j]);
+        gladiator.setTexture(&Gtexture2);
+        gladiator.sprite.setScale(0.1,0.1);
+        gladiator.setPosition(sf::Vector2f(300,300));
+        gladiator.setLabyrinthDirections(labyrinthDirections);
+        gladiator.setGladiatorsList(&gladiatorList1);
+
+        gladiatorList2.push_back(gladiator);
     }
 
 
@@ -80,9 +103,25 @@ int gladiatorManager::run(sf::RenderWindow &window) {
             //gladiatorList.clear();
 
                 //window.draw(bg1Sprite);
-                for (int i = 0; i < gladiatorList.size(); ++i) {
-                    gladiatorList[i].update();
-                    gladiatorList[i].draw(window);
+                for (int i = 0; i < gladiatorList1.size(); ++i) {
+                    if(gladiatorList1[i].isAlive()){
+                    gladiatorList1[i].update();
+                    gladiatorList1[i].draw(window);
+                    }
+                    else{
+                        //gladiatorList1.erase(gladiatorList1.begin()+i);
+                        gladiatorList1[i].setPosition(sf::Vector2f(100000,100000));
+
+                    }
+                }
+                for (int i = 0; i < gladiatorList2.size(); ++i) {
+                    if(gladiatorList2[i].isAlive()){
+                    gladiatorList2[i].update();
+                    gladiatorList2[i].draw(window);
+                }
+                    else{
+                        gladiatorList2[i].setPosition(sf::Vector2f(100000,100000));
+                    }
                 }
 
 

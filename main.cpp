@@ -13,7 +13,6 @@
 //#include "Grid.h"
 
 
-//using namespace std;
 const int W = 1600;
 const int H = 800;
 int main(int argc, char *argv[])

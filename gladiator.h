@@ -7,7 +7,7 @@
 #include "entity.h"
 #include <time.h>
 #include <iostream>
-
+#include <list>
 
 
 
@@ -15,8 +15,8 @@
 #include <fstream>
 #define Xspeed 2
 #define MAXSPEED 4*Xspeed
-#define ATTACK_WAIT_TIME 1000
-#define DEFEND_WAIT_TIME 1000
+#define ATTACK_WAIT_TIME 500
+#define DEFEND_WAIT_TIME 500
 #define ATTACK_RADIUS 50
 #define NEAR_TRIGGER_RADIUS 10
 
@@ -39,6 +39,9 @@ public:
 
     std::list<sf::Vector2f> getLabyrinthDirections() const;
     void setLabyrinthDirections(const std::list<sf::Vector2f> &value);
+
+    std::vector<Gladiator> *getGladiatorsList() const;
+    void setGladiatorsList(std::vector<Gladiator> *value);
 
 private:
     sf::Clock attackClock;
@@ -71,11 +74,11 @@ private:
     float getShield() const;
     void setShield(float value);
 
-    std::vector<Gladiator> getClosest(float radius = 50, int amount = 0);
+    std::vector<Gladiator *> getClosest(float radius = 50, int amount = 0);
     float calcDistance(sf::Vector2f pos);
 
-    void sortByDistance(std::vector<Gladiator> *list);
-    void sortByDistance(std::vector<Gladiator> *list, int left, int right);
+    void sortByDistance(std::vector<Gladiator *> *list);
+    void sortByDistance(std::vector<Gladiator *> *list, int left, int right);
 };
 
 

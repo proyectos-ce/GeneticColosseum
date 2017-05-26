@@ -32,7 +32,6 @@ void Gladiator::attack()
 void Gladiator::calcVariables()
 {
      setSpeed(MAXSPEED-MAXSPEED*0.6*(dna.genes[Weight]/100.f));
-     //std::cout<<" weight"<<dna.genes[Weight]<<"\n";
      setDamage(dna.genes[Attack]+dna.genes[Attack]*(0.3*dna.genes[Weight]/100.f));
      setShield(dna.genes[Shield]+dna.genes[Shield]*(0.3*dna.genes[Weight]/100.f));
 
