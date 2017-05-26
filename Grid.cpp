@@ -68,6 +68,7 @@ void Grid::addNeighbors(){
                 grid[i][j]->neighbors[3] = grid[i][j - 1];
             } else
                 grid[i][j]->neighbors[3] = nullptr;
+
             if (j > 0 && i > 0) {
                 grid[i][j]->neighbors[4] = grid[i - 1][j - 1];
             } else
@@ -168,3 +169,18 @@ void Grid::printPath(){
         std::cout << "[" << path[i]->row << ", " << path[i]->col << "], ";
     }
 }
+
+void Grid::generatePixelPath(){
+    int i;
+    for (i = 0; i < path.size(); i++) {
+        pixelPath.push_back(new sf::Vector2f(path[i]->col * 45, 175 + path[i]->row * 45));
+    }
+}
+
+std::vector<sf::Vector2f *> Grid::getPixelPath() {
+    return pixelPath;
+}
+
+
+
+

@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     Grid grid;
     grid.printGrid();
     grid.solve();
+    grid.generatePixelPath();
+//    std::cout << grid.getPixelPath();
     grid.printPath();
     time_t t;
     srand((unsigned) time(&t));
