@@ -22,7 +22,7 @@ public:
 
     static std::string server;
 
-    static std::vector<DNA> makeRequest(std::vector<DNA> data);
+    static std::vector<DNA> getNext(int population, std::vector<DNA> data);
 
     static std::vector<DNA> getFirst(int population);
 
@@ -40,6 +40,7 @@ private:
 
     static std::vector<DNA> parseDNAJson(std::string json);
 
+    static int port;
 };
 
 

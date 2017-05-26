@@ -8,6 +8,7 @@ Http::Http() {}
 
 
 std::string Http::server;
+int Http::port = 8081;
 
 
 std::string Http::prepareData(std::vector<DNA> data) {
@@ -18,20 +19,20 @@ std::string Http::prepareData(std::vector<DNA> data) {
         if (comma)
             result += ", ";
 
-        result += "{ 'genes': [";
+        result += "{ \"genes\": [";
 
         bool subcomma = false;
         for (auto &&gen: it->genes) {
             if (subcomma)
                 result += ", ";
 
-            result += gen;
+            result += std::to_string(gen);
 
             subcomma = true;
         }
 
-        result += "], 'probability': " + std::to_string(it->getProbability()) + ", 'fitness': " +
-                  std::to_string(it->getFitness()) + ", 'hash': " + it->getNameHASH() + "}";
+        result += "], \"probability\": " + std::to_string(it->getProbability()) + ", \"fitness\": " +
+                  std::to_string(it->getFitness()) + ", \"hash\": \"" + it->getNameHASH() + "\"}";
 
         comma = true;
     }
@@ -45,11 +46,8 @@ std::vector<DNA> Http::getFirst(int population) {
     // prepare the request
     sf::Http::Request request("/api/genetic/create/" + std::to_string(population), sf::Http::Request::Get);
 
-    std::cout << server << "/api/genetic/create/" + std::to_string(population) << std::endl;
-
-
     // send the request
-    sf::Http http(server);
+    sf::Http http(server, port);
     sf::Http::Response response = http.sendRequest(request);
 
     // check the status
@@ -63,16 +61,18 @@ std::vector<DNA> Http::getFirst(int population) {
     }
 }
 
-std::vector<DNA> Http::makeRequest(std::vector<DNA> data) {
+std::vector<DNA> Http::getNext(int population, std::vector<DNA> data) {
     // prepare the request
-    sf::Http::Request request("/v2/592637511200000702687077", sf::Http::Request::Post);
+    sf::Http::Request request("/api/genetic/update/" + std::to_string(population), sf::Http::Request::Post);
 
     // encode the parameters in the request body
     std::string stream = prepareData(data);
     request.setBody(stream);
+    std::cout << stream << std::endl;
+    request.setField("Content-Type", "application/json");
 
     // send the request
-    sf::Http http(server);
+    sf::Http http(server, port);
     sf::Http::Response response = http.sendRequest(request);
 
     // check the status

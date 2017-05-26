@@ -23,7 +23,8 @@ int menu::run(sf::RenderWindow &window) {
 
     bool running = true;
     int menuNumber = 0;
-    std::string ipDirection = "http://geneticserver.herokuapp.com";
+    //std::string ipDirection = "http://geneticserver.herokuapp.com";
+    std::string ipDirection = "http://localhost/";
 
     backgroundTexture.loadFromFile("Resources/Background.jpg");
     backgroundSprite.setTexture(backgroundTexture);
@@ -90,11 +91,19 @@ int menu::run(sf::RenderWindow &window) {
                     case sf::Keyboard::Return:
                         if (menuNumber == 1) {
                             Http::server = ipDirection;
-                            std::vector<DNA> *mock = new std::vector<DNA>;
+
+
                             std::vector<DNA> result = Http::getFirst(1);
-                            std::cout << result.at(0).genes[0] << std::endl;
+
+
+                            std::vector<DNA> result2 = Http::getNext(1, result);
+
 
                             std::cout << result.at(0).getNameHASH() << std::endl;
+
+
+                            std::cout << result2.at(0).getNameHASH() << std::endl;
+
                         }
                     default:
                         break;
