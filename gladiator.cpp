@@ -12,20 +12,37 @@ Gladiator::Gladiator(DNA dna)
 
 bool Gladiator::defend(int damage)
 {
-    life-=(damage-damage*(0.6*shield/100));
+    float realDamage = damage-damage*(0.6*shield/100.f);
+    life-=realDamage;
     return !isAlive();
 
 }
 
-void Gladiator::attack()
+bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
+{
+    float realDamage = damage-damage*(0.6*shield/100.f);
+    sf::Vector2f shoveDirection = getPosition() - attackerPos;
+    float total = sqrt(pow(shoveDirection.x, 2)+ pow(shoveDirection.y,2));
+    shoveDirection.x=shoveDirection.x/total;
+    shoveDirection.y=shoveDirection.y/total;
+    shovePos.x= getPosition().x+shoveDirection.x*(speed)*20.f;
+    shovePos.y= getPosition().y+shoveDirection.y*(speed)*20.f;
+    runningAway=true;
+    return defend(damage);
+
+}
+
+void Gladiator::attack(Gladiator* closest)
 {
     if(attackClock.getElapsedTime().asMilliseconds() > ATTACK_WAIT_TIME){
-        std::vector<Gladiator*> closest = getClosest( ATTACK_RADIUS,1);
-        if(closest.size()){
             //std::list<Gladiator>::iterator it = closest.begin();
-            attack(closest[0]);
+            if( closest->defend( getDamage()/2.f, getPosition() ) ){
+            //if( enemy->defend( 100 ) ){
+                increaseFitness(5);
+                //std::cout<<getDamage()<<std::endl;
+            }
             attackClock.restart();
-        }
+
     }
 }
 
@@ -52,8 +69,9 @@ void Gladiator::setGladiatorsList(std::vector<Gladiator> *value)
     gladiatorsList = value;
 }
 
-void Gladiator::move(sf::Vector2f movement, bool checkBorders)
+bool Gladiator::move(sf::Vector2f movement, bool checkBorders)
 {
+    bool result = false;
     if(checkBorders){
         sf::Vector2f nextPos;
         nextPos.x = sprite.getGlobalBounds().left + movement.x;
@@ -63,10 +81,11 @@ void Gladiator::move(sf::Vector2f movement, bool checkBorders)
                 borders.contains(nextPos.x+ sprite.getGlobalBounds().width, nextPos.y+sprite.getGlobalBounds().height) ) ){
             movement.x=0;
             movement.y=0;
+            result= true;
         }
     }
         sprite.move(movement);
-
+    return result;
 }
 
 float Gladiator::getDamage() const
@@ -79,31 +98,22 @@ void Gladiator::setDamage(float value)
     damage = value;
 }
 
-void Gladiator::attack(Gladiator *enemy)
-{
-    if( enemy->defend( getDamage()/10.f ) ){
-    //if( enemy->defend( 100 ) ){
-        increaseFitness(5);
-        std::cout<<getDamage()<<std::endl;
-    }
-}
 
-bool Gladiator::moveTo(sf::Vector2f pos, bool checkBorders)
+
+bool Gladiator::moveTo(sf::Vector2f pos, bool checkBorders, float speedMultiplier)
 {
     bool result = true;
 
     sf::Vector2f movent(0,0);
     if(calcDistance(pos)>getSpeed()){
         //std::cout << "DIRIGIENDOSE a " << pos.x << ", " << pos.y << " estoy en " << getPosition().x  << ", " << getPosition().y << " y falta " << calcDistance(pos) << std::endl;
-        result = false;
+        //result = false;
         float catX =   pos.x - getPosition().x;
         float catY =  pos.y -getPosition().y ;
-        movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)));
-        movent.y = getSpeed()*(catY/(fabs(catX)+fabs(catY)));
-        move(movent, checkBorders);
-        if (getPosition().x>450){
-        //std::cout << "LLEGUE AL COLISEO >:v" <<std::endl;
-    }
+        movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)))*speedMultiplier;
+        movent.y = getSpeed()*(catY/(fabs(catX)+fabs(catY)))*speedMultiplier;
+        result = move(movent, checkBorders);
+
     }
 
     return result;
@@ -127,18 +137,27 @@ void Gladiator::update()
             labyrinthDirections.pop_front();
             //std::cout<< "size"<<labyrinthDirections.size() <<"\n";
         }
-        //labyrinthDirections[0];
     }
-    else if(fighting){
-
+    else if(runningAway && moveTo(shovePos, true, 2)){
+        runningAway=false;
     }
     else{
-        moveTo(getClosest(300,1)[0]->getPosition(),   true);
-        attack();
 
-        //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
+
+        std::vector<Gladiator*> closest = getClosest(ATTACK_RADIUS,1);
+        if(closest.size()>0){
+        moveTo(closest[0]->getPosition(),   true);
+        attack(closest[0]);
+        }
+        else{
+            std::vector<Gladiator*> closest2 = getClosest(NEAR_TRIGGER_RADIUS,1);
+            if(closest2.size()>0){
+            moveTo(closest2[0]->getPosition(),   true);
+            }
+        }
     }
-    //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
+
+
 }
 
 DNA Gladiator::getDna() const
@@ -184,32 +203,7 @@ void Gladiator::setShield(float value)
 
 std::vector<Gladiator* > Gladiator::getClosest(float radius, int amount)
 {
-/*
-    std::list<Gladiator> closest;
-    //std::list<Gladiator>::iterator it;
-    for (int i = 0; i < gladiatorsList->size(); ++i) {
-        float distance = calcDistance(gladiatorsList->operator [](i).getPosition() );
-        if( distance < radius){
-            for (int j = 0; j <= amount; ++j) {
-                float distance2 = calcDistance(gladiatorsList->operator [](i).getPosition() );
-                if(j>=closest.size()){
-                    closest.push_back(gladiatorsList->operator [](i));
-                    break;
-                }
-                if(distance < distance2){
-                   //it = closest.begin();
-                    closest.insert(closest.begin(), j, gladiatorsList->operator [](i));
-                    while (closest.size()>amount){
-                        closest.pop_back();
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    return closest;
-
-    */
+    /*
     std::vector<Gladiator *> closest;
     for (int i = 0; i < gladiatorsList->size(); ++i) {
         closest.push_back(&gladiatorsList->operator [](i));
@@ -220,7 +214,22 @@ std::vector<Gladiator* > Gladiator::getClosest(float radius, int amount)
         amount=closest.size();
     }
     return std::vector<Gladiator*>(closest.begin(),closest.begin()+amount);
-
+    */
+    std::vector<Gladiator *> closest;
+    float distance = 10000;
+    float newDistance=0;
+    for (int i = 0; i < gladiatorsList->size(); ++i) {
+        newDistance=  calcDistance(gladiatorsList->operator [](i).getPosition());
+        if(newDistance<radius && newDistance<distance ){
+            if(closest.size()==0){
+                closest.push_back(& gladiatorsList->operator [](i));
+            }
+            else{
+                closest[0] = & gladiatorsList->operator [](i);
+            }
+        }
+    }
+    return closest;
 
 }
 

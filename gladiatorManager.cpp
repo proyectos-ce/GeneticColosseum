@@ -58,7 +58,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
         labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j    ) );
         labyrinthDirections.push_back(  sf::Vector2f( 400+50*j  ,300+50*j    ) );
         labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,500+50*j    ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 100+50*j  ,100+50*j    ) );
+        labyrinthDirections.push_back(  sf::Vector2f( 300+50*j  ,100+50*j    ) );
 
         gladiator.setDna(population.getPopulation()[j]);
         gladiator.setTexture(&Gtexture1);

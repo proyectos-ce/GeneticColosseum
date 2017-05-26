@@ -17,8 +17,8 @@
 #define MAXSPEED 4*Xspeed
 #define ATTACK_WAIT_TIME 500
 #define DEFEND_WAIT_TIME 500
-#define ATTACK_RADIUS 50
-#define NEAR_TRIGGER_RADIUS 10
+#define ATTACK_RADIUS 10
+#define NEAR_TRIGGER_RADIUS 200
 
 
 class Gladiator : public Entity
@@ -54,12 +54,14 @@ private:
     float damage = 0;
     float shield = 0;
     bool fighting = false;
+    bool runningAway = false;
+    sf::Vector2f shovePos;
     std::list<sf::Vector2f> labyrinthDirections;
-    void move(sf::Vector2f movement, bool checkBorders = false);
+    bool move(sf::Vector2f movement, bool checkBorders = false);
     bool defend(int damage);
-    void attack();
-    void attack(Gladiator *enemy);
-    bool moveTo(sf::Vector2f pos, bool checkBorders= false); // verdadero si ha llegado
+    bool defend(int damage, sf::Vector2f attackerPos);
+    void attack(Gladiator *closest);
+    bool moveTo(sf::Vector2f pos, bool checkBorders= false, float speedMultiplier=1); // verdadero si ha llegado
     sf::FloatRect borders;
     void calcVariables();
     void increaseFitness(int value);
