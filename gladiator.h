@@ -18,7 +18,7 @@
 #define ATTACK_WAIT_TIME 1000
 #define DEFEND_WAIT_TIME 1000
 #define ATTACK_RADIUS 50
-#define NEAR_TRIGGER_RADIUS 50
+#define NEAR_TRIGGER_RADIUS 10
 
 
 class Gladiator : public Entity

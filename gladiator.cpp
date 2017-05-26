@@ -64,20 +64,25 @@ bool Gladiator::moveTo(sf::Vector2f pos)
     bool result = true;
 
     sf::Vector2f movent(0,0);
-    if(calcDistance(pos)>NEAR_TRIGGER_RADIUS){
+    if(calcDistance(pos)>getSpeed()){
+        //std::cout << "DIRIGIENDOSE a " << pos.x << ", " << pos.y << " estoy en " << getPosition().x  << ", " << getPosition().y << " y falta " << calcDistance(pos) << std::endl;
         result = false;
         float catX =   pos.x - getPosition().x;
-        float catY =  pos.y-getPosition().y ;
+        float catY =  pos.y -getPosition().y ;
         movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)));
         movent.y = getSpeed()*(catY/(fabs(catX)+fabs(catY)));
         sprite.move(movent);
+        if (getPosition().x>450){
+        std::cout << "LLEGUE AL COLISEO >:v" <<std::endl;
     }
+    }
+
     return result;
 }
 
 void Gladiator::update()
 {
-    std::cout<< "size"<<labyrinthDirections.size() <<"\n";
+    //std::cout<< "size"<<labyrinthDirections.size() <<"\n";
     if(labyrinthDirections.size()>0){
         if(moveTo(labyrinthDirections.front())){
             labyrinthDirections.pop_front();
@@ -158,9 +163,11 @@ void Gladiator::setSpeed(float value)
 
 float Gladiator::calcDistance(sf::Vector2f pos){
     sf::Vector2f distance;
-    distance.x = sprite.getPosition().x - pos.x;
-    distance.y = sprite.getPosition().y - pos.y;
+//    distance.x = sprite.getPosition().x - pos.x;
+//    distance.y = sprite.getPosition().y - pos.y;
     //float distance = 0;
+    distance.x = getPosition().x - pos.x;
+    distance.y = getPosition().y - pos.y;
     return  sqrt(pow(distance.x, 2) + pow(distance.y, 2));
 
 }
