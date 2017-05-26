@@ -9,7 +9,9 @@
 #include <SFML/Network.hpp>
 #include <sstream>
 #include <iostream>
+#include <functional>
 #include "picojson.h"
+#include "dna.h"
 
 class Http {
 
@@ -17,7 +19,14 @@ class Http {
     Http();
 
 public:
-    static void sendScore(int score, std::string name);
+
+    static std::string server;
+
+    static std::vector<DNA> makeRequest(std::vector<DNA> data);
+
+    static std::vector<DNA> getFirst(int population);
+
+private:
 
     static void parseJson(std::string json);
 
@@ -26,6 +35,11 @@ public:
     static void parseJsonArray(const picojson::array &arr);
 
     static void checkValue(const picojson::value &value);
+
+    static std::string prepareData(std::vector<DNA> data);
+
+    static std::vector<DNA> parseDNAJson(std::string json);
+
 };
 
 

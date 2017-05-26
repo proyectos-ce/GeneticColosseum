@@ -23,7 +23,7 @@ int menu::run(sf::RenderWindow &window) {
 
     bool running = true;
     int menuNumber = 0;
-    std::string ipDirection;
+    std::string ipDirection = "http://geneticserver.herokuapp.com";
 
     backgroundTexture.loadFromFile("Resources/Background.jpg");
     backgroundSprite.setTexture(backgroundTexture);
@@ -74,22 +74,28 @@ int menu::run(sf::RenderWindow &window) {
             }
 
             if(event.type == sf::Event::KeyPressed){
-                switch (event.key.code){
+                switch (event.key.code) {
                     case sf::Keyboard::Escape:
                         exit(0);
                     case sf::Keyboard::Up:
                         menuNumber--;
-                        if(menuNumber<0)
-                            menuNumber=0;
+                        if (menuNumber < 0)
+                            menuNumber = 0;
                         break;
                     case sf::Keyboard::Down:
                         menuNumber++;
-                        if(menuNumber>1)
-                            menuNumber=1;
+                        if (menuNumber > 1)
+                            menuNumber = 1;
                         break;
                     case sf::Keyboard::Return:
-                        if(menuNumber==1)
-                            Http::sendScore(333, "joseph");
+                        if (menuNumber == 1) {
+                            Http::server = ipDirection;
+                            std::vector<DNA> *mock = new std::vector<DNA>;
+                            std::vector<DNA> result = Http::getFirst(1);
+                            std::cout << result.at(0).genes[0] << std::endl;
+
+                            std::cout << result.at(0).getNameHASH() << std::endl;
+                        }
                     default:
                         break;
                 }
@@ -122,4 +128,5 @@ int menu::run(sf::RenderWindow &window) {
         window.display();
     }
 
+    return EXIT_SUCCESS;
 }

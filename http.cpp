@@ -7,28 +7,149 @@
 Http::Http() {}
 
 
-void Http::sendScore(int score, std::string name) {
-    // prepare the request
-    sf::Http::Request request("/v2/59251a5b2b0000f706e81bac", sf::Http::Request::Get);
+std::string Http::server;
 
-    // encode the parameters in the request body
-    //std::string stream = std::string("name=") + name + std::string("&score=") + std::to_string(score);
-    //request.setBody(stream);
+
+std::string Http::prepareData(std::vector<DNA> data) {
+    std::string result = "[";
+
+    bool comma = false;
+    for (std::vector<DNA>::iterator it = data.begin(); it != data.end(); ++it) {
+        if (comma)
+            result += ", ";
+
+        result += "{ 'genes': [";
+
+        bool subcomma = false;
+        for (auto &&gen: it->genes) {
+            if (subcomma)
+                result += ", ";
+
+            result += gen;
+
+            subcomma = true;
+        }
+
+        result += "], 'probability': " + std::to_string(it->getProbability()) + ", 'fitness': " +
+                  std::to_string(it->getFitness()) + ", 'hash': " + it->getNameHASH() + "}";
+
+        comma = true;
+    }
+
+    result += "]";
+    return result;
+}
+
+
+std::vector<DNA> Http::getFirst(int population) {
+    // prepare the request
+    sf::Http::Request request("/api/genetic/create/" + std::to_string(population), sf::Http::Request::Get);
+
+    std::cout << server << "/api/genetic/create/" + std::to_string(population) << std::endl;
+
 
     // send the request
-    sf::Http http("http://www.mocky.io/");
+    sf::Http http(server);
     sf::Http::Response response = http.sendRequest(request);
 
     // check the status
     if (response.getStatus() == sf::Http::Response::Ok) {
         // check the contents of the response
         std::cout << response.getBody() << std::endl;
-        parseJson(response.getBody());
+        return parseDNAJson(response.getBody());
     } else {
         std::cerr << "HTTP error " << response.getStatus() << std::endl;
         std::cerr << "request failed" << std::endl;
     }
 }
+
+std::vector<DNA> Http::makeRequest(std::vector<DNA> data) {
+    // prepare the request
+    sf::Http::Request request("/v2/592637511200000702687077", sf::Http::Request::Post);
+
+    // encode the parameters in the request body
+    std::string stream = prepareData(data);
+    request.setBody(stream);
+
+    // send the request
+    sf::Http http(server);
+    sf::Http::Response response = http.sendRequest(request);
+
+    // check the status
+    if (response.getStatus() == sf::Http::Response::Ok) {
+        // check the contents of the response
+        std::cout << response.getBody() << std::endl;
+        return parseDNAJson(response.getBody());
+    } else {
+        std::cerr << "HTTP error " << response.getStatus() << std::endl;
+        std::cerr << "request failed" << std::endl;
+    }
+}
+
+
+std::vector<DNA> Http::parseDNAJson(std::string json) {
+    picojson::value v;
+
+    std::vector<DNA> result;
+
+    std::string err = picojson::parse(v, json);
+
+    if (!err.empty()) {
+        std::cerr << err << std::endl;
+        exit(1);
+    }
+
+    if (!v.is<picojson::array>()) {
+        std::cerr << "El JSON es inválido, deberia ser una lista pero no lo es" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+
+    picojson::array &arr = v.get<picojson::array>();
+
+
+    for (picojson::value::array::const_iterator i = arr.begin(); i != arr.end(); ++i) {
+        if (!i->is<picojson::object>()) {
+            std::cerr << "Se encontró una objeto anidado inváliado" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        DNA *temp = new DNA();
+
+        const picojson::value &val = i->get("genes");
+
+        const picojson::array &subarr = val.get<picojson::array>();
+
+        const picojson::value &prob = i->get("probability");
+
+        const picojson::value &fit = i->get("fitness");
+
+        const picojson::value &hash = i->get("hash");
+
+        temp->setProbability(prob.get<double>());
+
+        temp->setFitness(fit.get<double>());
+
+        temp->setNameHASH(hash.to_str());
+
+
+        int contador = 0;
+        for (picojson::value::array::const_iterator j = subarr.begin(); j != subarr.end(); ++j) {
+            temp->genes[contador] = (int) round(j->get<double>());
+            contador++;
+        }
+
+
+        result.push_back(*temp);
+
+
+    }
+
+    return result;
+
+
+}
+
 
 void Http::parseJson(std::string json) {
     picojson::value v;
