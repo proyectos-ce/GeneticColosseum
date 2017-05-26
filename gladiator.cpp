@@ -62,6 +62,7 @@ void Gladiator::attack(Gladiator *enemy)
 bool Gladiator::moveTo(sf::Vector2f pos)
 {
     bool result = true;
+
     sf::Vector2f movent(0,0);
     if(calcDistance(pos)>NEAR_TRIGGER_RADIUS){
         result = false;
@@ -88,8 +89,9 @@ void Gladiator::update()
 
     }
     else{
-    //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
+    sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
     }
+    //sprite.move(getSpeed(), dna.genes[VericalCost]/50.f*Xspeed);
 }
 
 DNA Gladiator::getDna() const

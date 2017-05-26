@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
 
     std::list<sf::Vector2f> labyrinthDirections;
-    labyrinthDirections.push_back(  sf::Vector2f( 200  ,100   ) );
+    labyrinthDirections.push_back(  sf::Vector2f( 800  ,300   ) );
     labyrinthDirections.push_back(  sf::Vector2f( 400  ,100   ) );
     labyrinthDirections.push_back(  sf::Vector2f( 400  ,300   ) );
     labyrinthDirections.push_back(  sf::Vector2f( 600  ,500   ) );
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
             if (event.type == sf::Event::Closed)
                 app.close();
         }
-        for (int gen = 0; gen < 1; ++gen) {
+        for (int gen = 0; gen < 100; ++gen) {
             resultPop.clear();
             gladiatorList.clear();
 
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
                 gladiator.setDna(population.getPopulation()[i]);
                 gladiator.setTexture(&Gtexture);
                 gladiator.sprite.setScale(0.3,0.3);
-                gladiator.setPosition(sf::Vector2f(300,300));
+                gladiator.setPosition(sf::Vector2f(100,100));
                 gladiator.setLabyrinthDirections(labyrinthDirections);
                 gladiatorList.push_back(gladiator);
             }
