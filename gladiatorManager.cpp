@@ -3,6 +3,7 @@
 //
 
 #include "gladiatorManager.h"
+#include "stats.h"
 
 gladiatorManager::gladiatorManager() {
     srand((unsigned) time(&t));
@@ -27,7 +28,7 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setTexture(coliseumTexture);
     coliseumSprite.setPosition(450,0);
 
-    
+
 
     Gtexture1.setSmooth(true);
     Gtexture1.loadFromFile("Resources/bronze.png");
@@ -83,6 +84,13 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
             gladiatorList1.push_back(gladiator);
         }
 
+
+
+
+
+
+
+
         for (int j = 0; j <10 ; ++j) {
             /*labyrinthDirections.clear();
         labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j   ) );
@@ -120,6 +128,10 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         window.draw(coliseumSprite);
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
+        //_____________________________________________________________DIBUJAR LOS TEXTOS
+        Stats.update_gladiator_stats(window,gladiator);
+        Stats.update_gen_stats(window,1,1);
+
 
 //        sf::Texture texture;
 //        if (!texture.loadFromFile("Resources/fondo.png"))
