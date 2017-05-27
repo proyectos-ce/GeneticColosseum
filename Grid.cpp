@@ -34,6 +34,14 @@ Grid::Grid(char side) {
             grid[randRow][randCol]->tower = true;
         }
     }
+    while (obstacleCells.size() <  15){
+        int randRow = rand() % 10;
+        int randCol = rand() % 10;
+        if (std::find(obstacleCells.begin(), obstacleCells.end(), grid[randRow][randCol]) == obstacleCells.end() && grid[randRow][randCol]->tower == 0 && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+            obstacleCells.push_back(grid[randRow][randCol]);
+            grid[randRow][randCol]->obstacle = true;
+        }
+    }
 }
 
 
