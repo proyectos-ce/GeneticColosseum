@@ -129,7 +129,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );*/
             labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
 
-            gladiator.setDna(population.getPopulation()[j]);rand()%3
+            gladiator.setDna(population.getPopulation()[j]);
             gladiator.setTexture(&Gtexture2);
             gladiator.sprite.setScale(0.1,0.1);
             gladiator.setPosition(sf::Vector2f(300,300));
