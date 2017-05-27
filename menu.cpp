@@ -31,7 +31,7 @@ int menu::run(sf::RenderWindow &window, std::string &ip) {
 
     coliseumTexture.loadFromFile("Resources/coliseum.png");
     coliseumSprite.setTexture(coliseumTexture);
-    coliseumSprite.setPosition(550,200);
+    coliseumSprite.setPosition(550,250);
 
 
 
@@ -42,7 +42,7 @@ int menu::run(sf::RenderWindow &window, std::string &ip) {
     titleLabel.setCharacterSize(80);
     titleLabel.setString("Genetic Colosseum");
     titleLabel.setPosition(20,20);
-    titleLabel.setColor(sf::Color(73,183,108));
+    titleLabel.setColor(sf::Color(73,150,250));
     titleLabel.setStyle(sf::Text::Italic);
 
     ipLabel.setFont(font);
@@ -53,7 +53,7 @@ int menu::run(sf::RenderWindow &window, std::string &ip) {
     ipStatus.setFont(font);
     ipStatus.setCharacterSize(40);
     ipStatus.setPosition(360, 180);
-    ipStatus.setColor(sf::Color(73,183,108));
+    ipStatus.setColor(sf::Color(73,150,250));
 
 
     startLabel.setFont(font);
@@ -100,12 +100,12 @@ int menu::run(sf::RenderWindow &window, std::string &ip) {
             }
         }
         if (menuNumber == 0){
-            ipLabel.setColor(sf::Color(73,183,108));
+            ipLabel.setColor(sf::Color(73,150,250));
             startLabel.setColor(sf::Color::White);
         }
         else if(menuNumber==1){
             ipLabel.setColor(sf::Color::White);
-            startLabel.setColor(sf::Color(73,183,108));
+            startLabel.setColor(sf::Color(73,150,250));
         }
 
         ipStatus.setString(ipDirection);
