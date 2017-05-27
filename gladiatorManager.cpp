@@ -96,7 +96,7 @@ void gladiatorManager::setBorders(const sf::FloatRect &value) {
     borders = value;
 }
 void gladiatorManager::setTowers(Grid *grid, sf::RenderWindow &window) {
-    grid->solve(&gladiator);
+
     for(int i =0; i<grid->towerCells.size(); i++){
         sf::Sprite towerSprite;
         towerSprite.setTexture(towerTexture);
@@ -144,8 +144,8 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
 
     setObstacles(rightGrid, window);
     setObstacles(leftGrid, window);
-    setTowers(rightGrid, window);
-    setTowers(leftGrid, window);
+  //  setTowers(rightGrid, window);
+    //setTowers(leftGrid, window);
 
     std::cout << ip << std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
@@ -213,7 +213,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
             window.draw(intiZoneSpriteR);
             window.draw(intiZoneSpriteL);
             drawObstacles(window);
-            drawTowers(window);
+            //drawTowers(window);
 
 
             for (int i = gladiatorList1.size() - 1; i >= 0; --i) {
