@@ -20,13 +20,13 @@ bool Gladiator::defend(int damage)
 
 bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
 {
-    float realDamage = damage-damage*(0.4*shield/100.f);
+    float realDamage = damage-damage*(0.6*shield/100.f);
     sf::Vector2f shoveDirection = getPosition() - attackerPos;
     float total = sqrt(pow(shoveDirection.x, 2)+ pow(shoveDirection.y,2));
     shoveDirection.x=shoveDirection.x/total;
     shoveDirection.y=shoveDirection.y/total;
-    shovePos.x= getPosition().x+shoveDirection.x*(speed)*20.f;
-    shovePos.y= getPosition().y+shoveDirection.y*(speed)*20.f;
+    shovePos.x= getPosition().x+shoveDirection.x*(speed)*10.f;
+    shovePos.y= getPosition().y+shoveDirection.y*(speed)*10.f;
     runningAway=true;
     return defend(damage);
 
@@ -84,7 +84,7 @@ bool Gladiator::move(sf::Vector2f movement, bool checkBorders)
         }
     }
     sprite.move(movement);
-    /*
+
     if(movement.x != 0){
         if(movement.x > 0){
             sprite.setScale(0.1,0.1);
@@ -92,7 +92,7 @@ bool Gladiator::move(sf::Vector2f movement, bool checkBorders)
         else{
             sprite.setScale(-0.1,0.1);
         }
-    }*/
+    }
     return result;
 }
 
@@ -175,17 +175,20 @@ void Gladiator::update()
         runningAway=false;
     }
     else if (hasClosest(dna.genes[AttackRadius]/5,1)){
-        std::vector<Gladiator*> closest = getClosest(dna.genes[AttackRadius]/5,1);
+        std::vector<Gladiator*> closest = getClosest(dna.genes[AttackRadius]/10,1);
         if(closest.size()>0){
             moveTo(closest[0]->getPosition(),   true);
             attack(closest[0]);
         }
     }
-    else if( hasClosest(dna.genes[GladiatorDetectionRadius]*10,1) ){
-        std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*10,1);
+    else if( hasClosest(dna.genes[GladiatorDetectionRadius]*20,1) ){
+        std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*20,1);
         if(closest2.size()>0){
             moveTo(closest2[0]->getPosition(),   true);
         }
+    }
+    else {
+
     }
 }
 
@@ -208,6 +211,15 @@ std::list<sf::Vector2f> Gladiator::getLabyrinthDirections() const
 void Gladiator::setLabyrinthDirections(const std::list<sf::Vector2f> &value)
 {
     labyrinthDirections = value;
+}
+
+
+void Gladiator::importLabyrinthDirections(const std::vector<sf::Vector2f> &value)
+{
+    labyrinthDirections.clear();
+        for (int i = 0; i < value.size(); ++i) {
+        labyrinthDirections.push_back(value[i]);
+    }
 }
 
 bool Gladiator::isAlive()

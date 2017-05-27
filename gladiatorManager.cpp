@@ -38,6 +38,9 @@ gladiatorManager::gladiatorManager() {
     borders.top=10;
     borders.left=450;
 
+    Http::server = "http://geneticserver.herokuapp.com";
+    dnaList1 = Http::getFirst(1);
+    dnaList2 = Http::getFirst(2);
 
 }
 
@@ -48,7 +51,6 @@ void gladiatorManager::extractDNA()
     for (int i = 0; i < gladiatorList1.size(); ++i) {
         dnaList1.push_back(gladiatorList1[i].dna);
     }
-    gladiatorList1.clear();
 
 
     for (int i = 0; i < deadGladiatorList1.size(); ++i) {
@@ -57,20 +59,20 @@ void gladiatorManager::extractDNA()
     deadGladiatorList1.clear();
 
 
-
-
     dnaList2.clear();
 
     for (int i = 0; i < gladiatorList2.size(); ++i) {
         dnaList2.push_back(gladiatorList2[i].dna);
     }
-    gladiatorList2.clear();
+
 
     for (int i = 0; i < deadGladiatorList2.size(); ++i) {
-        dnaList1.push_back(deadGladiatorList2[i].dna);
+        dnaList2.push_back(deadGladiatorList2[i].dna);
     }
     deadGladiatorList2.clear();
-
+    if (dnaList2.size()==0){
+     int a =1;
+    }
 }
 
 sf::FloatRect gladiatorManager::getBorders() const
@@ -87,48 +89,6 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
     std::cout <<ip<<std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
 
-
-    for (int var = 0; var < 3; ++var) {
-
-
-        for (int j = 0; j <10 ; ++j) {
-            labyrinthDirections.clear();
-            /*labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,500+50*j   ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j    ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 400+50*j  ,300+50*j    ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,500+50*j    ) );*/
-            labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,100+50*j    ) );
-
-            gladiator.setDna(population.getPopulation()[j]);
-            gladiator.setTexture(&Gtexture1);
-            gladiator.sprite.setScale(0.1,0.1);
-            gladiator.setPosition(sf::Vector2f(300,300));
-            gladiator.setLabyrinthDirections(labyrinthDirections);
-            gladiator.setGladiatorsList(&gladiatorList2);
-            gladiator.setBorders(borders);
-            gladiatorList1.push_back(gladiator);
-        }
-
-        for (int j = 0; j <10 ; ++j) {
-            /*labyrinthDirections.clear();
-        labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j   ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 900+50*j  ,500+50*j    ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,300+50*j    ) );
-        labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );*/
-            labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
-
-            gladiator.setDna(population.getPopulation()[j]);
-            gladiator.setTexture(&Gtexture2);
-            gladiator.sprite.setScale(0.1,0.1);
-            gladiator.setPosition(sf::Vector2f(300,300));
-            gladiator.setLabyrinthDirections(labyrinthDirections);
-            gladiator.setGladiatorsList(&gladiatorList1);
-            gladiator.setBorders(borders);
-
-            gladiatorList2.push_back(gladiator);
-        }
-
-    }
 
     while (window.isOpen()){
 
@@ -147,53 +107,50 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
 
-        //        sf::Texture texture;
-        //        if (!texture.loadFromFile("Resources/fondo.png"))
-        //        {
-        //            // error...
-        //        }
-        //        sf::Sprite sprite;
-        //        sprite.setTexture(texture);
-        //
-        //        window.draw(sprite);
-
         gladiatorList1.clear();
         gladiatorList2.clear();
-        for (int var = 0; var < 1; ++var) {
-            for (int j = 0; j <10 ; ++j) {
-                labyrinthDirections.clear();
-                labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,100+50*j    ) );
+        //dnaList1 = Http::getNext(1, dnaList1);
+        //dnaList2 = Http::getNext(2, dnaList2);
 
-                gladiator.setDna(population.getPopulation()[j]);
-                gladiator.setTexture(&Gtexture1);
-                gladiator.sprite.setScale(0.1,0.1);
-                gladiator.setPosition(sf::Vector2f(300,300));
-                gladiator.setLabyrinthDirections(labyrinthDirections);
-                gladiator.setGladiatorsList(&gladiatorList2);
-                gladiator.setBorders(borders);
-                gladiatorList1.push_back(gladiator);
-            }
+        for (int j = 0; j <dnaList1.size() ; ++j) {
+            labyrinthDirections.clear();
+            //for (int var = 0; var < 4; ++var) {
+            //    labyrinthDirections.push_back(  sf::Vector2f( 100  ,100    ) );
+             //   labyrinthDirections.push_back(  sf::Vector2f( 100  ,400    ) );
+           // }
 
-            for (int j = 0; j <10 ; ++j) {
-                labyrinthDirections.clear();
+            //labyrinthDirections.push_back(  sf::Vector2f( 500  ,100    ) );
+            gladiator.setDna(dnaList1[j]);
+            gladiator.setTexture(&Gtexture1);
+            gladiator.sprite.setScale(0.1,0.1);
+            gladiator.setPosition(sf::Vector2f(300,300));
+            gladiator.setLabyrinthDirections(labyrinthDirections);
+            gladiator.setGladiatorsList(&gladiatorList2);
+            gladiator.setBorders(borders);
+            gladiatorList1.push_back(gladiator);
+        }
 
-                labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
-
-                gladiator.setDna(population.getPopulation()[j]);
-                gladiator.setTexture(&Gtexture2);
-                gladiator.sprite.setScale(0.1,0.1);
-                gladiator.setPosition(sf::Vector2f(300,300));
-                gladiator.setLabyrinthDirections(labyrinthDirections);
-                gladiator.setGladiatorsList(&gladiatorList1);
-                gladiator.setBorders(borders);
-
-                gladiatorList2.push_back(gladiator);
-            }
-
+        for (int j = 0; j <dnaList2.size() ; ++j) {
+            labyrinthDirections.clear();
+            //for (int var = 0; var < 4; ++var) {
+            //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,100    ) );
+            //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,400    ) );
+            //}
+            //labyrinthDirections.push_back(  sf::Vector2f( 800  ,100) );
+            gladiator.setDna(dnaList2[j]);
+            gladiator.setTexture(&Gtexture2);
+            gladiator.sprite.setScale(0.1,0.1);
+            gladiator.setPosition(sf::Vector2f(900,300));
+            gladiator.setLabyrinthDirections(labyrinthDirections);
+            gladiator.setGladiatorsList(&gladiatorList1);
+            gladiator.setBorders(borders);
+            gladiatorList2.push_back(gladiator);
         }
 
 
 
+
+        roundClock.restart();
         while(roundClock.getElapsedTime().asSeconds()<ROUND_TIME){
             sf::Event event;
             while (window.pollEvent(event))
@@ -238,9 +195,11 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
             window.display();
 
         }
-        roundClock.restart();
+        //roundClock.restart();
         generation++;
         extractDNA();
+        dnaList1 = Http::getNext(1, dnaList1);
+        dnaList2 = Http::getNext(2, dnaList2);
     }
 
 

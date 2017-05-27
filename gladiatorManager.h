@@ -15,8 +15,9 @@
 #include"gladiator.h"
 #include "screen.h"
 #include "stats.h"
+#include "http.h"
 
-#define ROUND_TIME 10
+#define ROUND_TIME 20
 class gladiatorManager : public screen{
 public:
     sf::Clock roundClock;
