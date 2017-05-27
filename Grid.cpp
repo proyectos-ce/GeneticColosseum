@@ -40,8 +40,8 @@ bool Grid::contains(std::vector<Cell*> vector, Cell* cell){
     return false;
 }
 
-int Grid::heuristic(Cell* a, Cell* b){
-    return sqrt((b->row-a->row)*(b->row-a->row)+(b->col-a->col)*(b->col-a->col));
+int Grid::heuristic(Cell* a, Cell* b, Gladiator gladiator){
+    return abs((b->row-a->row)*gladiator.dna.genes[VericalCost])+abs((b->col-a->col)*gladiator.dna.genes[HorizontalCost]);
 }
 
 void Grid::addNeighbors(){
@@ -68,29 +68,29 @@ void Grid::addNeighbors(){
                 grid[i][j]->neighbors[3] = grid[i][j - 1];
             } else
                 grid[i][j]->neighbors[3] = nullptr;
-
-            if (j > 0 && i > 0) {
-                grid[i][j]->neighbors[4] = grid[i - 1][j - 1];
-            } else
-                grid[i][j]->neighbors[4] = nullptr;
-            if (j > 0 && i < N - 1) {
-                grid[i][j]->neighbors[5] = grid[i + 1][j - 1];
-            } else
-                grid[i][j]->neighbors[5] = nullptr;
-            if (j < N - 1 && i > 0) {
-                grid[i][j]->neighbors[6] = grid[i - 1][j + 1];
-            } else
-                grid[i][j]->neighbors[6] = nullptr;
-            if (j < N - 1 && i < N - 1) {
-                grid[i][j]->neighbors[7] = grid[i + 1][j + 1];
-            } else
-                grid[i][j]->neighbors[7] = nullptr;
+//            Diagonales
+//            if (j > 0 && i > 0) {
+//                grid[i][j]->neighbors[4] = grid[i - 1][j - 1];
+//            } else
+//                grid[i][j]->neighbors[4] = nullptr;
+//            if (j > 0 && i < N - 1) {
+//                grid[i][j]->neighbors[5] = grid[i + 1][j - 1];
+//            } else
+//                grid[i][j]->neighbors[5] = nullptr;
+//            if (j < N - 1 && i > 0) {
+//                grid[i][j]->neighbors[6] = grid[i - 1][j + 1];
+//            } else
+//                grid[i][j]->neighbors[6] = nullptr;
+//            if (j < N - 1 && i < N - 1) {
+//                grid[i][j]->neighbors[7] = grid[i + 1][j + 1];
+//            } else
+//                grid[i][j]->neighbors[7] = nullptr;
         }
     }
 }
 
 
-void Grid::solve(){
+void Grid::solve(Gladiator gladiator){
     bool notSolved = true;
     this->openSet.push_back(start);
     int i;
@@ -135,7 +135,7 @@ void Grid::solve(){
                             openSet.push_back(neighbor);
                         }
 
-                        neighbor->h = heuristic(neighbor, end);
+                        neighbor->h = heuristic(neighbor, end, gladiator);
                         neighbor->f = neighbor->g + neighbor->h;
                         neighbor->previous = current;
                     }

@@ -5,7 +5,7 @@
 #ifndef GENETICCOLOSSEUM_GRID_H
 #define GENETICCOLOSSEUM_GRID_H
 
-
+#include "gladiator.h"
 #include "Cell.h"
 #include <iostream>
 #include <vector>
@@ -23,7 +23,7 @@ public:
     Cell* end;
     void printGrid();
     void addNeighbors();
-    void solve();
+    void solve(Gladiator gladiator);
     void remove(Cell*);
     std::vector<Cell*> path;
     std::vector<Cell*> openSet;
@@ -38,7 +38,7 @@ private:
 
     bool contains(std::vector<Cell *, std::allocator<Cell *>> vector, Cell *cell);
 
-    int heuristic(Cell *a, Cell *b);
+    int heuristic(Cell *a, Cell *b, Gladiator gladiator);
 
 
 
