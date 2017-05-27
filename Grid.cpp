@@ -255,10 +255,10 @@ void Grid::generatePixelPath(){
         startX += 1185;
 
     if (gridSide == "R"){
-        pixelPath.push_back(sf::Vector2f(startX - 45, startY + 4 * 45));
+        pixelPath.push_back(sf::Vector2f(startX - 45, startY + rand() % 10 * 45));
     }
     else{
-        pixelPath.push_back(sf::Vector2f(startX + 10 * 45, startY + 4 * 45));
+        pixelPath.push_back(sf::Vector2f(startX + 10 * 45, startY + rand() % 10 * 45));
     }
 
     for (i = 0; i < path.size(); i++) {
