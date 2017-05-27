@@ -20,8 +20,6 @@ class gladiatorManager : public screen{
 public:
     gladiatorManager();
     time_t t;
-    sf::Texture texture;
-    sf::Sprite sprite;
 
     sf::Texture bg1Tex;
     sf::Sprite bg1Sprite;

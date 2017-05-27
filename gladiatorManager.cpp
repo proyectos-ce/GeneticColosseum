@@ -20,19 +20,7 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setTexture(coliseumTexture);
     coliseumSprite.setPosition(450,0);
 
-//    texture.loadFromFile("Resources/knight.png");
-
-//    sprite.setTexture(texture);
-//    sprite.setPosition(300,200);
-//    sprite.setScale(-0.3,-0.3);
-
-//    bg1Tex.loadFromFile("Resources/fondo.png");
-//    bg1Tex.setSmooth(false);
-//    bg1Tex.setRepeated(true);
-//    bg1Sprite.setTexture(bg1Tex);
-//    bg1Sprite.setScale(20,20);
-
-
+    
 
     Gtexture1.setSmooth(true);
     Gtexture1.loadFromFile("Resources/bronze.png");
