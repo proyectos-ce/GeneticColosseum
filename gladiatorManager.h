@@ -14,6 +14,7 @@
 #include"populationmanager.h"
 #include"gladiator.h"
 #include "screen.h"
+#include "stats.h"
 
 
 class gladiatorManager : public screen{
@@ -31,6 +32,7 @@ public:
     std::vector<Gladiator> deadGladiatorList2;
     std::vector<DNA> dnaList1;
     std::vector<DNA> dnaList2;
+    Gladiator gladiator;
     sf::Texture Gtexture1;
     sf::Texture Gtexture2;
     sf::FloatRect borders;
@@ -46,6 +48,7 @@ public:
 
     std::vector<DNA> resultPop;
 
+    stats Stats = stats();
 
     PopulationManager population;
 

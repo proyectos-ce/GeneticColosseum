@@ -38,6 +38,7 @@ void Gladiator::attack(Gladiator* closest)
         //std::list<Gladiator>::iterator it = closest.begin();
         if( closest->defend( getDamage()/1.5, getPosition() ) ){
             increaseFitness(5);
+            kills++;
         }
         attackClock.restart();
 
@@ -134,6 +135,31 @@ sf::FloatRect Gladiator::getBorders() const
 void Gladiator::setBorders(const sf::FloatRect &value)
 {
     borders = value;
+}
+
+float Gladiator::getLife() const
+{
+    return life;
+}
+
+void Gladiator::setLife(float value)
+{
+    life = value;
+}
+
+double Gladiator::getFitness()
+{
+    return dna.getFitness();
+}
+
+int Gladiator::getKills() const
+{
+    return kills;
+}
+
+void Gladiator::setKills(int value)
+{
+    kills = value;
 }
 
 void Gladiator::update()
