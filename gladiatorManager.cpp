@@ -174,7 +174,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
         }
         roundClock.restart();
-
+        extractDNA();
     }
 
 

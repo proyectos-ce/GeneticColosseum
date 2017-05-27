@@ -31,6 +31,7 @@ public:
     std::vector<Gladiator> deadGladiatorList2;
     std::vector<DNA> dnaList1;
     std::vector<DNA> dnaList2;
+    Gladiator gladiator;
     sf::Texture Gtexture1;
     sf::Texture Gtexture2;
     sf::FloatRect borders;
