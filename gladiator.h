@@ -52,7 +52,7 @@ public:
     double getFitness();
     int getKills() const;
     void setKills(int value);
-    void importLabyrinthDirections(const std::vector<sf::Vector2f> &value);
+  //  void importLabyrinthDirections(const std::vector<sf::Vector2f> &value);
 
 private:
     sf::Clock attackClock;
