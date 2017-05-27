@@ -29,7 +29,6 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setTexture(coliseumTexture);
     coliseumSprite.setPosition(450,0);
 
-
     for (int i=0; i<5;i++){
         towerlist_izq.push_back(torre);
     }

@@ -6,7 +6,7 @@
 #include <cmath>
 #include "Grid.h"
 
-Grid::Grid() {
+Grid::Grid(char side) {
     int i, j;
     for (i = 0; i < N; i++){
         for (j = 0; j < N; j++){
@@ -16,9 +16,26 @@ Grid::Grid() {
     }
 
     addNeighbors();
+    if (side == 'L'){
     start = grid[0][0];
-    end = grid[N - 1][N - 1];
+    end = grid[4][N-1];
+    }
+    else if (side == 'R'){
+        start = grid[0][N-1];
+        end = grid[4][0];
+    }
+
+    while (towerCells.size() <  20){
+        int randRow = rand() % 10;
+        int randCol = rand() % 10;
+        if (std::find(towerCells.begin(), towerCells.end(), grid[randRow][randCol]) == towerCells.end() && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+            towerCells.push_back(grid[randRow][randCol]);
+            grid[randRow][randCol]->obstacle = true;
+        }
+    }
 }
+
+
 
 void Grid::remove(Cell* cell){
     int i;
@@ -40,8 +57,8 @@ bool Grid::contains(std::vector<Cell*> vector, Cell* cell){
     return false;
 }
 
-int Grid::heuristic(Cell* a, Cell* b){
-    return sqrt((b->row-a->row)*(b->row-a->row)+(b->col-a->col)*(b->col-a->col));
+int Grid::heuristic(Cell* a, Cell* b, Gladiator gladiator){
+    return abs((b->row-a->row)*gladiator.dna.genes[VericalCost])+abs((b->col-a->col)*gladiator.dna.genes[HorizontalCost]);
 }
 
 void Grid::addNeighbors(){
@@ -68,28 +85,29 @@ void Grid::addNeighbors(){
                 grid[i][j]->neighbors[3] = grid[i][j - 1];
             } else
                 grid[i][j]->neighbors[3] = nullptr;
-            if (j > 0 && i > 0) {
-                grid[i][j]->neighbors[4] = grid[i - 1][j - 1];
-            } else
-                grid[i][j]->neighbors[4] = nullptr;
-            if (j > 0 && i < N - 1) {
-                grid[i][j]->neighbors[5] = grid[i + 1][j - 1];
-            } else
-                grid[i][j]->neighbors[5] = nullptr;
-            if (j < N - 1 && i > 0) {
-                grid[i][j]->neighbors[6] = grid[i - 1][j + 1];
-            } else
-                grid[i][j]->neighbors[6] = nullptr;
-            if (j < N - 1 && i < N - 1) {
-                grid[i][j]->neighbors[7] = grid[i + 1][j + 1];
-            } else
-                grid[i][j]->neighbors[7] = nullptr;
+//            Diagonales
+//            if (j > 0 && i > 0) {
+//                grid[i][j]->neighbors[4] = grid[i - 1][j - 1];
+//            } else
+//                grid[i][j]->neighbors[4] = nullptr;
+//            if (j > 0 && i < N - 1) {
+//                grid[i][j]->neighbors[5] = grid[i + 1][j - 1];
+//            } else
+//                grid[i][j]->neighbors[5] = nullptr;
+//            if (j < N - 1 && i > 0) {
+//                grid[i][j]->neighbors[6] = grid[i - 1][j + 1];
+//            } else
+//                grid[i][j]->neighbors[6] = nullptr;
+//            if (j < N - 1 && i < N - 1) {
+//                grid[i][j]->neighbors[7] = grid[i + 1][j + 1];
+//            } else
+//                grid[i][j]->neighbors[7] = nullptr;
         }
     }
 }
 
 
-void Grid::solve(){
+void Grid::solve(Gladiator gladiator){
     bool notSolved = true;
     this->openSet.push_back(start);
     int i;
@@ -134,7 +152,7 @@ void Grid::solve(){
                             openSet.push_back(neighbor);
                         }
 
-                        neighbor->h = heuristic(neighbor, end);
+                        neighbor->h = heuristic(neighbor, end, gladiator);
                         neighbor->f = neighbor->g + neighbor->h;
                         neighbor->previous = current;
                     }
@@ -168,3 +186,20 @@ void Grid::printPath(){
         std::cout << "[" << path[i]->row << ", " << path[i]->col << "], ";
     }
 }
+
+void Grid::generatePixelPath(){
+    int i;
+    for (i = 0; i < path.size(); i++) {
+        pixelPath.push_back(new sf::Vector2f(path[i]->col * 45, 175 + path[i]->row * 45));
+    }
+}
+
+std::vector<sf::Vector2f *> Grid::getPixelPath() {
+    return pixelPath;
+}
+
+
+
+
+
+

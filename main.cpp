@@ -6,7 +6,6 @@
 #include "dna.h"
 #include"populationmanager.h"
 #include"gladiator.h"
-
 #include "screens.h"
 #include "gladiatorManager.h"
 
@@ -40,3 +39,4 @@ int main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
+
