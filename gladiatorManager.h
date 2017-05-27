@@ -15,6 +15,7 @@
 #include"gladiator.h"
 #include "screen.h"
 #include "stats.h"
+#include "tower.h"
 
 
 class gladiatorManager : public screen{
@@ -30,6 +31,8 @@ public:
     std::vector<Gladiator> gladiatorList2;
     std::vector<Gladiator> deadGladiatorList1;
     std::vector<Gladiator> deadGladiatorList2;
+    std::vector<Tower> towerlist_izq;
+    std::vector<Tower> towerlist_der;
     std::vector<DNA> dnaList1;
     std::vector<DNA> dnaList2;
     Gladiator gladiator;
@@ -49,6 +52,13 @@ public:
     std::vector<DNA> resultPop;
 
     stats Stats = stats();
+
+    Tower izq_torre1 = Tower ();
+    Tower izq_torre2 = Tower ();
+
+
+    Tower der_torre1 = Tower ();
+    Tower der_torre2 = Tower ();
 
     PopulationManager population;
 
