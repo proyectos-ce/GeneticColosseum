@@ -7,6 +7,7 @@
 menu::menu() {}
 
 int menu::run(sf::RenderWindow &window, std::string &ip) {
+
     sf::Event event;
 
     sf::Texture backgroundTexture;
