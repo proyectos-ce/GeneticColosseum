@@ -14,11 +14,13 @@
 #include"populationmanager.h"
 #include"gladiator.h"
 #include "screen.h"
+#include "Grid.h"
 
 
 class gladiatorManager : public screen{
 public:
     gladiatorManager();
+
     time_t t;
 
     sf::Texture bg1Tex;
@@ -41,6 +43,9 @@ public:
     sf::Sprite intiZoneSpriteR;
     sf::Sprite coliseumSprite;
 
+    Grid* rightGrid;
+    Grid* leftGrid;
+
 
 
     sf::Clock cycleClock;
@@ -50,10 +55,15 @@ public:
 
     PopulationManager population;
 
+    std::vector<sf::Texture> texturesArray;
+    std::vector<sf::Sprite> spritesArray;
+
     int run(sf::RenderWindow &window, std::string& ip);
 
     sf::FloatRect getBorders() const;
     void setBorders(const sf::FloatRect &value);
+    void setObstacles(Grid* grid, sf::RenderWindow &window);
+    void drawObstacles(sf::RenderWindow &window);
 };
 
 #endif //GENETICCOLOSSEUM_GLADIATORMANAGER_H

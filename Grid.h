@@ -18,6 +18,8 @@ class Grid {
 
 public:
     Grid(char side);
+
+    std::string gridSide;
     Cell* grid[N][N];
     Cell* start;
     Cell* end;

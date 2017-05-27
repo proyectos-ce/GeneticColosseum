@@ -2,6 +2,7 @@
 // Created by jimena on 18/05/17.
 //
 
+#include <zconf.h>
 #include "gladiatorManager.h"
 
 gladiatorManager::gladiatorManager() {
@@ -27,6 +28,11 @@ gladiatorManager::gladiatorManager() {
     trunkTexture.loadFromFile("Resources/trunk.png");
     holeTexture.loadFromFile("Resources/hole.png");
 
+    texturesArray.push_back(crystalTexture);
+    texturesArray.push_back(holeTexture);
+    texturesArray.push_back(trunkTexture);
+
+
 
     Gtexture1.setSmooth(true);
     Gtexture1.loadFromFile("Resources/bronze.png");
@@ -45,6 +51,7 @@ gladiatorManager::gladiatorManager() {
     borders.left=450;
 
 
+
 }
 
 sf::FloatRect gladiatorManager::getBorders() const
@@ -57,7 +64,39 @@ void gladiatorManager::setBorders(const sf::FloatRect &value)
     borders = value;
 }
 
+void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
+    int obstacleCounter = 0;
+    for(int i=0; i<10; i++){
+        for(int j=0; j<10; j++){
+            if(grid->grid[i][j]->obstacle){
+                obstacleCounter++;
+                sf::Sprite obstacleSprite;
+                obstacleSprite.setTexture(texturesArray[0 + (rand() % (int)(2 + 1))]);
+                if(grid->gridSide.compare("R") == 0)
+                    obstacleSprite.setPosition(j*45, i*45+175);
+                else{
+                    obstacleSprite.setPosition(j*45+1150, i*45+175);
+                }
+                spritesArray.push_back(obstacleSprite);
+            }
+        }
+    }
+}
+
+void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
+    for(int i=0; i<spritesArray.size(); i++){
+        window.draw(spritesArray[i]);
+    }
+}
+
 int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
+
+    rightGrid = new Grid('R');
+    leftGrid = new Grid('L');
+
+    setObstacles(rightGrid, window);
+    setObstacles(leftGrid, window);
+
     std::cout <<ip<<std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
 
@@ -90,7 +129,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );*/
             labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
 
-            gladiator.setDna(population.getPopulation()[j]);
+            gladiator.setDna(population.getPopulation()[j]);rand()%3
             gladiator.setTexture(&Gtexture2);
             gladiator.sprite.setScale(0.1,0.1);
             gladiator.setPosition(sf::Vector2f(300,300));
@@ -123,13 +162,15 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
                 return 0;
         }
         window.clear(sf::Color::Black);
+
         window.draw(bg1Sprite);
         window.draw(coliseumSprite);
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
-        window.draw(crystalSprite);
-        window.draw(trunkSprite);
-        window.draw(holeSprite);
+        drawObstacles(window);
+//        window.draw(crystalSprite);
+//        window.draw(trunkSprite);
+//        window.draw(holeSprite);
 
 //        sf::Texture texture;
 //        if (!texture.loadFromFile("Resources/fondo.png"))
@@ -171,3 +212,5 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
     return 0;
 }
+
+
