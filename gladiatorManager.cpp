@@ -8,13 +8,7 @@
 gladiatorManager::gladiatorManager() {
     srand((unsigned) time(&t));
 
-    /*
-    texture.loadFromFile("Resources/knight.png");
 
-    sprite.setTexture(texture);
-    sprite.setPosition(300,200);
-    sprite.setScale(-0.3,-0.3);
-*/
     bg1Tex.loadFromFile("Resources/Background.jpg");
     bg1Sprite.setTexture(bg1Tex);
     bg1Sprite.setPosition(0,0);
@@ -50,26 +44,32 @@ gladiatorManager::gladiatorManager() {
 void gladiatorManager::extractDNA()
 {
     dnaList1.clear();
+
     for (int i = 0; i < gladiatorList1.size(); ++i) {
-         dnaList1.push_back(gladiatorList1[i].dna);
+        dnaList1.push_back(gladiatorList1[i].dna);
     }
     gladiatorList1.clear();
+
 
     for (int i = 0; i < deadGladiatorList1.size(); ++i) {
         dnaList1.push_back(deadGladiatorList1[i].dna);
     }
     deadGladiatorList1.clear();
 
+
+
+
     dnaList2.clear();
+
     for (int i = 0; i < gladiatorList2.size(); ++i) {
-         dnaList2.push_back(gladiatorList2[i].dna);
+        dnaList2.push_back(gladiatorList2[i].dna);
     }
     gladiatorList2.clear();
 
     for (int i = 0; i < deadGladiatorList2.size(); ++i) {
-        dnaList1.push_back(deadGladiatorList1[i].dna);
+        dnaList1.push_back(deadGladiatorList2[i].dna);
     }
-    deadGladiatorList1.clear();
+    deadGladiatorList2.clear();
 
 }
 
@@ -147,25 +147,21 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
 
-//        sf::Texture texture;
-//        if (!texture.loadFromFile("Resources/fondo.png"))
-//        {
-//            // error...
-//        }
-//        sf::Sprite sprite;
-//        sprite.setTexture(texture);
-//
-//        window.draw(sprite);
+        //        sf::Texture texture;
+        //        if (!texture.loadFromFile("Resources/fondo.png"))
+        //        {
+        //            // error...
+        //        }
+        //        sf::Sprite sprite;
+        //        sprite.setTexture(texture);
+        //
+        //        window.draw(sprite);
 
         gladiatorList1.clear();
         gladiatorList2.clear();
-        for (int var = 0; var < 30; ++var) {
+        for (int var = 0; var < 1; ++var) {
             for (int j = 0; j <10 ; ++j) {
                 labyrinthDirections.clear();
-                /*labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,500+50*j   ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j    ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 400+50*j  ,300+50*j    ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,500+50*j    ) );*/
                 labyrinthDirections.push_back(  sf::Vector2f( 500+50*j  ,100+50*j    ) );
 
                 gladiator.setDna(population.getPopulation()[j]);
@@ -180,10 +176,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
             for (int j = 0; j <10 ; ++j) {
                 labyrinthDirections.clear();
-                /*labyrinthDirections.push_back(  sf::Vector2f( 700+50*j  ,500+50*j   ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 900+50*j  ,500+50*j    ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,300+50*j    ) );
-            labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );*/
+
                 labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
 
                 gladiator.setDna(population.getPopulation()[j]);
@@ -201,7 +194,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
 
 
-        while(roundClock.getElapsedTime().asSeconds()<30){
+        while(roundClock.getElapsedTime().asSeconds()<ROUND_TIME){
             sf::Event event;
             while (window.pollEvent(event))
             {
@@ -240,11 +233,13 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
             }
             //_____________________________________________________________DIBUJAR LOS TEXTOS
             //Stats.update_gladiator_stats(window, );
-            Stats.update_gen_stats(window,1,1);
+            Stats.update_gen_stats(window,generation, ROUND_TIME-roundClock.getElapsedTime().asSeconds());
+            Stats.update_gladiator_stats(window, &gladiatorList2[2]);
             window.display();
 
         }
         roundClock.restart();
+        generation++;
         extractDNA();
     }
 

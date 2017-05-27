@@ -16,7 +16,7 @@
 #include "screen.h"
 #include "stats.h"
 
-
+#define ROUND_TIME 10
 class gladiatorManager : public screen{
 public:
     sf::Clock roundClock;
@@ -25,7 +25,7 @@ public:
 
     sf::Texture bg1Tex;
     sf::Sprite bg1Sprite;
-
+    int generation=0;
     std::vector<Gladiator> gladiatorList1;
     std::vector<Gladiator> gladiatorList2;
     std::vector<Gladiator> deadGladiatorList1;
