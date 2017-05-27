@@ -79,6 +79,9 @@ public:
     void setBorders(const sf::FloatRect &value);
     void setObstacles(Grid* grid, sf::RenderWindow &window);
     void drawObstacles(sf::RenderWindow &window);
+
+    Gladiator *getBest();
+
     void setTowers(Grid* grid, sf::RenderWindow &window);
     void drawTowers(sf::RenderWindow &window);
 };

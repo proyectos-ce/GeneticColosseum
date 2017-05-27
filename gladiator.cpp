@@ -20,27 +20,52 @@ bool Gladiator::defend(int damage)
 
 bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
 {
-    float realDamage = damage-damage*(0.6*shield/100.f);
+    bool result = false;
+    if(!(labyrinthDirections.size()>0)){
+    float realDamage = damage-damage*(0.4*shield/100.f);
     sf::Vector2f shoveDirection = getPosition() - attackerPos;
     float total = sqrt(pow(shoveDirection.x, 2)+ pow(shoveDirection.y,2));
+    if(total <= 0.5){
+        //std::cout << "r = 0, error"<<std::endl;
+        total = sqrt(pow(3, 2)+ pow(3,2));
+        shoveDirection.x=3;
+        shoveDirection.y=3;
+    }
     shoveDirection.x=shoveDirection.x/total;
     shoveDirection.y=shoveDirection.y/total;
-    shovePos.x= getPosition().x+shoveDirection.x*(speed)*10.f;
-    shovePos.y= getPosition().y+shoveDirection.y*(speed)*10.f;
+    shovePos.x= getPosition().x+shoveDirection.x*(speed)*20.f;
+    shovePos.y= getPosition().y+shoveDirection.y*(speed)*20.f;
     runningAway=true;
-    return defend(damage);
-
+    result= defend(damage);
+    }
+    return result;
 }
 
 void Gladiator::attack(Gladiator* closest)
 {
-    if(attackClock.getElapsedTime().asMilliseconds() > dna.genes[AttackWaitTime]*5){
+    if(attackClock.getElapsedTime().asMilliseconds() > dna.genes[AttackWaitTime]*3){
         //std::list<Gladiator>::iterator it = closest.begin();
         if( closest->defend( getDamage()/1.5, getPosition() ) ){
             increaseFitness(5);
             kills++;
         }
         attackClock.restart();
+
+
+
+        sf::Vector2f shoveDirection = getPosition() - closest->getPosition();
+        float total = sqrt(pow(shoveDirection.x, 2)+ pow(shoveDirection.y,2));
+        if(total <= 0.5){
+            //std::cout << "r = 0, error"<<std::endl;
+            total = sqrt(pow(3, 2)+ pow(3,2));
+            shoveDirection.x=3;
+            shoveDirection.y=3;
+        }
+        shoveDirection.x=shoveDirection.x/total;
+        shoveDirection.y=shoveDirection.y/total;
+        shovePos.x= getPosition().x+shoveDirection.x*(speed)*20.f;
+        shovePos.y= getPosition().y+shoveDirection.y*(speed)*20.f;
+        runningAway=true;
 
     }
 }
@@ -174,21 +199,25 @@ void Gladiator::update()
     else if(runningAway && moveTo(shovePos, true, 2)){
         runningAway=false;
     }
-    else if (hasClosest(dna.genes[AttackRadius]/5,1)){
+    else if (hasClosest(dna.genes[AttackRadius]/10,1)){
+        //std::cout << "attack1"<<std::endl;
         std::vector<Gladiator*> closest = getClosest(dna.genes[AttackRadius]/10,1);
         if(closest.size()>0){
+            //std::cout << "attack2"<<std::endl;
             moveTo(closest[0]->getPosition(),   true);
             attack(closest[0]);
+
         }
     }
     else if( hasClosest(dna.genes[GladiatorDetectionRadius]*20,1) ){
+        std::cout << "follow"<<std::endl;
+
         std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*20,1);
         if(closest2.size()>0){
             moveTo(closest2[0]->getPosition(),   true);
         }
     }
     else {
-
     }
 }
 
