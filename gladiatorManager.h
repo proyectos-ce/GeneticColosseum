@@ -33,9 +33,17 @@ public:
     sf::Texture Gtexture2;
     sf::FloatRect borders;
 
+    sf::Texture intiZoneTexture;
+    sf::Texture coliseumTexture;
+    sf::Sprite intiZoneSpriteL;
+    sf::Sprite intiZoneSpriteR;
+    sf::Sprite coliseumSprite;
+
+
     sf::Clock cycleClock;
 
     std::vector<DNA> resultPop;
+
 
     PopulationManager population;
 

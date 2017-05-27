@@ -7,11 +7,24 @@
 gladiatorManager::gladiatorManager() {
     srand((unsigned) time(&t));
 
-    texture.loadFromFile("Resources/knight.png");
+    bg1Tex.loadFromFile("Resources/Background.jpg");
+    bg1Sprite.setTexture(bg1Tex);
+    bg1Sprite.setPosition(0,0);
 
-    sprite.setTexture(texture);
-    sprite.setPosition(300,200);
-    sprite.setScale(-0.3,-0.3);
+    intiZoneTexture.loadFromFile("Resources/cuadricula.jpg");
+    coliseumTexture.loadFromFile("Resources/Coliseum.jpg");
+    intiZoneSpriteL.setTexture(intiZoneTexture);
+    intiZoneSpriteL.setPosition(0,175);
+    intiZoneSpriteR.setTexture(intiZoneTexture);
+    intiZoneSpriteR.setPosition(1150,175);
+    coliseumSprite.setTexture(coliseumTexture);
+    coliseumSprite.setPosition(450,0);
+
+//    texture.loadFromFile("Resources/knight.png");
+
+//    sprite.setTexture(texture);
+//    sprite.setPosition(300,200);
+//    sprite.setScale(-0.3,-0.3);
 
 //    bg1Tex.loadFromFile("Resources/fondo.png");
 //    bg1Tex.setSmooth(false);
@@ -30,6 +43,7 @@ gladiatorManager::gladiatorManager() {
     cycleClock.restart();
 
     population.inicializePopulation(10);
+
 
     borders.height = 800;
     borders.width=700;
@@ -102,16 +116,21 @@ int gladiatorManager::run(sf::RenderWindow &window) {
             if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 return 0;
         }
+        window.clear(sf::Color::Black);
+        window.draw(bg1Sprite);
+        window.draw(coliseumSprite);
+        window.draw(intiZoneSpriteR);
+        window.draw(intiZoneSpriteL);
 
-        sf::Texture texture;
-        if (!texture.loadFromFile("Resources/fondo.png"))
-        {
-            // error...
-        }
-        sf::Sprite sprite;
-        sprite.setTexture(texture);
-
-        window.draw(sprite);
+//        sf::Texture texture;
+//        if (!texture.loadFromFile("Resources/fondo.png"))
+//        {
+//            // error...
+//        }
+//        sf::Sprite sprite;
+//        sprite.setTexture(texture);
+//
+//        window.draw(sprite);
 
 
 

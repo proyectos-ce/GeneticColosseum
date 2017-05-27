@@ -27,12 +27,12 @@ int menu::run(sf::RenderWindow &window) {
     backgroundTexture.loadFromFile("Resources/Background.jpg");
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0,0);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,1200,800));
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,1600,800));
 
-    coliseumTexture.loadFromFile("Resources/Coliseum.png");
+    coliseumTexture.loadFromFile("Resources/coliseum.png");
     coliseumSprite.setTexture(coliseumTexture);
-    coliseumSprite.setPosition(700,400);
-    coliseumSprite.setTextureRect(sf::IntRect(0,0,500,400));
+    coliseumSprite.setPosition(550,200);
+
 
 
 
