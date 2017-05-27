@@ -71,7 +71,7 @@ void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
             if(grid->grid[i][j]->obstacle){
                 obstacleCounter++;
                 sf::Sprite obstacleSprite;
-                obstacleSprite.setTexture(texturesArray[0 + (rand() % (int)(2 + 1))]);
+                obstacleSprite.setTexture(texturesArray[0 + (rand() % (2 + 1))]);
                 if(grid->gridSide.compare("R") == 0)
                     obstacleSprite.setPosition(j*45, i*45+175);
                 else{
@@ -129,7 +129,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         labyrinthDirections.push_back(  sf::Vector2f( 800+50*j  ,500+50*j    ) );*/
             labyrinthDirections.push_back(  sf::Vector2f( 600+50*j  ,100+50*j    ) );
 
-            gladiator.setDna(population.getPopulation()[j]);rand()%3
+            gladiator.setDna(population.getPopulation()[j]);
             gladiator.setTexture(&Gtexture2);
             gladiator.sprite.setScale(0.1,0.1);
             gladiator.setPosition(sf::Vector2f(300,300));
