@@ -33,9 +33,14 @@ public:
 
     sf::Texture intiZoneTexture;
     sf::Texture coliseumTexture;
+    sf::Texture trunkTexture;
+    sf::Texture crystalTexture;
+    sf::Texture holeTexture;
+
     sf::Sprite intiZoneSpriteL;
     sf::Sprite intiZoneSpriteR;
     sf::Sprite coliseumSprite;
+
 
 
     sf::Clock cycleClock;

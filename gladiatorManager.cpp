@@ -22,6 +22,10 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setPosition(450,0);
 
 
+///obstaculos
+    crystalTexture.loadFromFile("Resources/crystal.png");
+    trunkTexture.loadFromFile("Resources/trunk.png");
+    holeTexture.loadFromFile("Resources/hole.png");
 
 
     Gtexture1.setSmooth(true);
@@ -96,8 +100,16 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
             gladiatorList2.push_back(gladiator);
         }
-
     }
+
+    sf::Sprite crystalSprite(crystalTexture);
+    crystalSprite.setPosition(90, 175);
+
+    sf::Sprite trunkSprite(trunkTexture);
+    trunkSprite.setPosition(135,220);
+
+    sf::Sprite holeSprite(holeTexture);
+    holeSprite.setPosition(180, 265);
 
 
     while (window.isOpen()){
@@ -115,6 +127,9 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         window.draw(coliseumSprite);
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
+        window.draw(crystalSprite);
+        window.draw(trunkSprite);
+        window.draw(holeSprite);
 
 //        sf::Texture texture;
 //        if (!texture.loadFromFile("Resources/fondo.png"))

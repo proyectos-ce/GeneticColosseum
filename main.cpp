@@ -18,7 +18,8 @@ const int H = 800;
 int main(int argc, char *argv[])
 {
 
-    
+
+
     std::vector<screen*> screens;
     int screen = 0;
     std::string ip = "";
