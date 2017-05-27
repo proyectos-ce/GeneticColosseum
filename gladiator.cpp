@@ -210,7 +210,6 @@ void Gladiator::update()
         }
     }
     else if( hasClosest(dna.genes[GladiatorDetectionRadius]*20,1) ){
-        std::cout << "follow"<<std::endl;
 
         std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*20,1);
         if(closest2.size()>0){

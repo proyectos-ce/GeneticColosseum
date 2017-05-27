@@ -188,6 +188,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
     sf::Music backgroundMusic;
     backgroundMusic.openFromFile("Resources/background.ogg");
     backgroundMusic.setLoop(true);
+    backgroundMusic.play();
 
     rightGrid = new Grid('R');
     leftGrid = new Grid('L');
@@ -212,7 +213,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
                 return 0;
         }
 
-        backgroundMusic.play();
+
 
 
         gladiatorList1.clear();
