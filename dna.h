@@ -16,7 +16,7 @@ public:
 
 private:
     std::string nameHASH;
-    double fitness =0;
+	double fitness = 1;
     double probability=0;
 };
 
