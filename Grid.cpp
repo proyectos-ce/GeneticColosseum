@@ -6,7 +6,7 @@
 #include <cmath>
 #include "Grid.h"
 
-Grid::Grid() {
+Grid::Grid(char side) {
     int i, j;
     for (i = 0; i < N; i++){
         for (j = 0; j < N; j++){
@@ -16,8 +16,14 @@ Grid::Grid() {
     }
 
     addNeighbors();
+    if (side == 'L'){
     start = grid[0][0];
-    end = grid[N - 1][N - 1];
+    end = grid[4][N-1];
+    }
+    else if (side == 'R'){
+        start = grid[0][N-1];
+        end = grid[4][0];
+    }
 }
 
 void Grid::remove(Cell* cell){

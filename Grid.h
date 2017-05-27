@@ -17,7 +17,7 @@ class Cell;
 class Grid {
 
 public:
-    Grid();
+    Grid(char side);
     Cell* grid[N][N];
     Cell* start;
     Cell* end;
