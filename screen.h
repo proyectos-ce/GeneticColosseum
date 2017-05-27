@@ -9,6 +9,6 @@
 
 class screen{
 public:
-    virtual int run (sf::RenderWindow &window) = 0;
+    virtual int run (sf::RenderWindow &window, std::string &ip) = 0;
 };
 #endif //GENETICCOLOSSEUM_SCREEN_H

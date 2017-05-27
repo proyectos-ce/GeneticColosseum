@@ -13,7 +13,7 @@
 class menu : public screen{
 public:
     menu();
-    int run(sf::RenderWindow &window);
+    int run(sf::RenderWindow &window, std::string& ip);
 };
 
 #endif //GENETICCOLOSSEUM_MENU_H
