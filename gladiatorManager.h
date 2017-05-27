@@ -14,24 +14,39 @@
 #include"populationmanager.h"
 #include"gladiator.h"
 #include "screen.h"
+#include "stats.h"
+#include "http.h"
 #include "Grid.h"
 
 
+#define ROUND_TIME 20
 class gladiatorManager : public screen{
 public:
+    sf::Clock roundClock;
     gladiatorManager();
 
     time_t t;
 
     sf::Texture bg1Tex;
     sf::Sprite bg1Sprite;
-
+    int generation=0;
     std::vector<Gladiator> gladiatorList1;
     std::vector<Gladiator> gladiatorList2;
+    std::vector<Gladiator> deadGladiatorList1;
+    std::vector<Gladiator> deadGladiatorList2;
+    std::vector<DNA> dnaList1;
+    std::vector<DNA> dnaList2;
     Gladiator gladiator;
     sf::Texture Gtexture1;
     sf::Texture Gtexture2;
     sf::FloatRect borders;
+    void extractDNA();
+    sf::Texture intiZoneTexture;
+    sf::Texture coliseumTexture;
+    sf::Sprite intiZoneSpriteL;
+    sf::Sprite intiZoneSpriteR;
+    sf::Sprite coliseumSprite;
+
 
     sf::Texture intiZoneTexture;
     sf::Texture coliseumTexture;
@@ -52,6 +67,7 @@ public:
 
     std::vector<DNA> resultPop;
 
+    stats Stats = stats();
 
     PopulationManager population;
 

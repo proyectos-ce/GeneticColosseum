@@ -47,15 +47,23 @@ public:
     void setBorders(const sf::FloatRect &value);
     void importLabyrinthDirections(const std::vector<sf::Vector2f, std::allocator<sf::Vector2f>> &value);
 
+    float getLife() const;
+    void setLife(float value);
+    double getFitness();
+    int getKills() const;
+    void setKills(int value);
+    void importLabyrinthDirections(const std::vector<sf::Vector2f> &value);
+
 private:
     sf::Clock attackClock;
     sf::Clock defendClock;
-    float life = 1000;
+    float life = 100;
     float speed = 0;
     float damage = 0;
     float shield = 0;
     bool fighting = false;
     bool runningAway = false;
+    int kills=0;
     sf::Vector2f shovePos;
     std::list<sf::Vector2f> labyrinthDirections;
     bool move(sf::Vector2f movement, bool checkBorders = false);
@@ -77,7 +85,7 @@ private:
 
     float getShield() const;
     void setShield(float value);
-
+    bool hasClosest(float radius = 50, int amount = 0);
     std::vector<Gladiator *> getClosest(float radius = 50, int amount = 0);
     float calcDistance(sf::Vector2f pos);
 
