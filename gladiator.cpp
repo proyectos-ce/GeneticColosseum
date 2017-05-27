@@ -12,7 +12,7 @@ Gladiator::Gladiator(DNA dna)
 
 bool Gladiator::defend(int damage)
 {
-    float realDamage = damage-damage*(0.6*shield/100.f);
+    float realDamage = damage-damage*(0.4*shield/100.f);
     life-=realDamage;
     return !isAlive();
 
@@ -20,7 +20,7 @@ bool Gladiator::defend(int damage)
 
 bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
 {
-    float realDamage = damage-damage*(0.6*shield/100.f);
+    float realDamage = damage-damage*(0.4*shield/100.f);
     sf::Vector2f shoveDirection = getPosition() - attackerPos;
     float total = sqrt(pow(shoveDirection.x, 2)+ pow(shoveDirection.y,2));
     shoveDirection.x=shoveDirection.x/total;
@@ -34,12 +34,10 @@ bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
 
 void Gladiator::attack(Gladiator* closest)
 {
-    if(attackClock.getElapsedTime().asMilliseconds() > ATTACK_WAIT_TIME){
+    if(attackClock.getElapsedTime().asMilliseconds() > dna.genes[AttackWaitTime]*5){
             //std::list<Gladiator>::iterator it = closest.begin();
             if( closest->defend( getDamage()/2.f, getPosition() ) ){
-            //if( enemy->defend( 100 ) ){
                 increaseFitness(5);
-                //std::cout<<getDamage()<<std::endl;
             }
             attackClock.restart();
 
@@ -144,15 +142,16 @@ void Gladiator::update()
     else{
 
 
-        std::vector<Gladiator*> closest = getClosest(ATTACK_RADIUS,1);
+        std::vector<Gladiator*> closest = getClosest(dna.genes[AttackRadius]/5,1);
         if(closest.size()>0){
         moveTo(closest[0]->getPosition(),   true);
         attack(closest[0]);
         }
         else{
-            std::vector<Gladiator*> closest2 = getClosest(NEAR_TRIGGER_RADIUS,1);
+            std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*10,1);
             if(closest2.size()>0){
-            moveTo(closest2[0]->getPosition(),   true);
+
+                moveTo(closest2[0]->getPosition(),   true);
             }
         }
     }
