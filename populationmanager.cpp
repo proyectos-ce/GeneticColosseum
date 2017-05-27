@@ -46,9 +46,9 @@ DNA PopulationManager::createRandom()
 
 DNA PopulationManager::obtainRandomFromPool()
 {
-    float prob =  (float)(rand()) /  (float)(RAND_MAX);
+    double prob =  (double)(rand()) /  (double)(RAND_MAX);
     DNA randomMate;
-    for (int i = population.size(); i >=0; --i) {
+    for (int i = 0; i < population.size(); ++i) {
         prob-=population[i].getProbability();
         if(prob<=0){
             randomMate = population[i];
@@ -60,6 +60,7 @@ DNA PopulationManager::obtainRandomFromPool()
 
 void PopulationManager::inicializePopulation(int maxPopulation)
 {
+
     this->maxPopulation=maxPopulation;
     population.clear();
     for (int i = 0; i < maxPopulation; ++i) {
@@ -79,19 +80,19 @@ void PopulationManager::setMaxPopulation(int value)
 
 void PopulationManager::createNextGeneration()
 {
-    //calcFitnessForEach();
     sortByFitness();
     setProbabilityForEach();
     std::vector<DNA> nextGeneration;
     for (int i = 0; i < maxPopulation; ++i) {
         DNA parent1 = obtainRandomFromPool();
         DNA parent2 = obtainRandomFromPool();
-        DNA child = DNAManager::crossover(parent1, parent2);
+        DNA child = DNAManager::crossover(parent1, parent2, MUTATION);
         nextGeneration.push_back(child);
     }
     updatePopulation(nextGeneration);
     generation++;
 }
+
 
 void PopulationManager::setProbabilityForEach()
 {
@@ -107,52 +108,51 @@ void PopulationManager::sortByFitness(){
     sortByFitness( &population, 0, population.size()-1);
 }
 
-void PopulationManager::sortByFitness( std::vector<DNA> *arr, int left, int right)
+void PopulationManager::sortByFitness(std::vector<DNA> *list, int left, int right)
 {
     int i = left, j = right;
     DNA tmp;
-    int pivot = arr->operator []((left + right) / 2).getFitness();
-    /* partition */
+    double pivot = list->operator []((left + right) / 2).getFitness();
     while (i <= j) {
-        while (arr->operator [](i).getFitness() < pivot)
+          while (list->operator [](i).getFitness() < pivot)
+                i++;
+          while (list->operator [](j).getFitness() > pivot)
+                j--;
+          if (i <= j) {
+                tmp = list->operator [](i);
+                list->operator [](i) = list->operator [](j);
+                list->operator [](j) = tmp;
+                i++;
+                j--;
+          }
+    };
+    if (left < j)
+          sortByFitness(list, left, j);
+    if (i < right)
+          sortByFitness(list, i, right);
+    }
+
+/*
+    int i = left, j = right;
+    DNA tmp;
+    int pivot = list->operator []((left + right) / 2).getFitness();
+
+    while (i <= j) {
+        while (list->operator [](i).getFitness() < pivot)
             i++;
-        while (arr->operator [](j).getFitness() > pivot)
+        while (list->operator [](j).getFitness() > pivot)
             j--;
         if (i <= j) {
-            tmp = arr->operator [](i);
-            arr->operator [](i) = arr->operator [](j);
-            arr->operator [](j)= tmp;
+            tmp = list->operator [](i);
+            list->operator [](i) = list->operator [](j);
+            list->operator [](j)= tmp;
             i++;
             j--;
         }
     };
-    /* recursion */
     if (left < j)
-        sortByFitness(arr, left, j);
+        sortByFitness(list, left, j);
     if (i < right)
-        sortByFitness(arr, i, right);
+        sortByFitness(list, i, right);
 
-}
-
-void PopulationManager::calcFitnessForEach()
-{
-    int fitness = 0;
-    for (int i = 0; i < population.size(); ++i) {
-        fitness=0;
-        for (int j = 0; j < 11; ++j) {
-        if(i%2==0){
-            fitness+=population[i].genes[j];
-        }
-        else{
-            fitness+=population[i].genes[j];
-        }
-        fitness=abs(fitness % 436 );
-        if(population[i].genes[2]>95){
-            fitness+=200;
-        }
-        population[i].setFitness(fitness);
-
-
-    }
-    }
-}
+*/

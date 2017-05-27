@@ -7,22 +7,34 @@ class DNA
 public:
     DNA();
     int genes[11];
-    float getProbability() const;
-    void setProbability(float value);
-
-    float getFitness() const;
-    void setFitness(float value);
+    double getProbability() const;
+    void setProbability(double value);
+    double getFitness() const;
+    void setFitness(double value);
+    std::string getNameHASH() const;
+    void setNameHASH(const std::string &value);
 
 private:
-    float fitness;
-    float probability;
+    std::string nameHASH;
+    double fitness =0;
+    double probability=0;
 };
 
 
 namespace DNAManager {
 int getRandomGene(int geneNumber=0);
 DNA createRandomDNA();
-DNA crossover(DNA parent1,DNA parent2);
+DNA crossover(DNA parent1, DNA parent2, float mutation=0.05);
 }
-
+enum genes {
+    HorizontalCost,
+    VericalCost,
+    AtractionToGladiators,
+   AttackWaitTime,
+   AttackRadius,
+   GladiatorDetectionRadius,
+   Attack,
+   Shield,
+   Weight
+};
 #endif // DNA_H
