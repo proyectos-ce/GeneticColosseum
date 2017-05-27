@@ -96,23 +96,18 @@ void gladiatorManager::setBorders(const sf::FloatRect &value)
 }
 
 void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
-    int obstacleCounter = 0;
-    for(int i=0; i<10; i++){
-        for(int j=0; j<10; j++){
-            if(grid->grid[i][j]->obstacle){
-                obstacleCounter++;
-                sf::Sprite obstacleSprite;
-                obstacleSprite.setTexture(texturesArray[0 + (rand() % (int)(2 + 1))]);
-                if(grid->gridSide.compare("R") == 0)
-                    obstacleSprite.setPosition(j*45, i*45+175);
-                else{
-                    obstacleSprite.setPosition(j*45+1150, i*45+175);
-                }
-                spritesArray.push_back(obstacleSprite);
+    for(int i =0; i<grid->obstacleCells.size(); i++){
+            sf::Sprite obstacleSprite;
+            obstacleSprite.setTexture(texturesArray[0 + (rand() % (2 + 1))]);
+            if(grid->gridSide.compare("R") == 0)
+                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45, grid->obstacleCells[i]->row*45+175);
+            else{
+                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45+1150, grid->obstacleCells[i]->row*45+175);
             }
+            spritesArray.push_back(obstacleSprite);
         }
     }
-}
+
 
 void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
     for(int i=0; i<spritesArray.size(); i++){
