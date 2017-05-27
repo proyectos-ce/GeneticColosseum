@@ -140,6 +140,48 @@ void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
     }
 }
 
+Gladiator *gladiatorManager::getBest()
+{
+    Gladiator *best;
+    float bestFitness = 0;
+    float currentFitness = 0;
+    for (int i = 0; i < gladiatorList1.size(); ++i) {
+        currentFitness = gladiatorList1[i].getFitness();
+        if(currentFitness>bestFitness){
+            best = &gladiatorList1[i];
+            bestFitness = currentFitness;
+        }
+    }
+    for (int i = 0; i < gladiatorList2.size(); ++i) {
+        currentFitness = gladiatorList2[i].getFitness();
+        if(currentFitness>bestFitness){
+            best = &gladiatorList2[i];
+            bestFitness = currentFitness;
+
+        }
+    }
+
+    for (int i = 0; i < deadGladiatorList1.size(); ++i) {
+        currentFitness = deadGladiatorList1[i].getFitness();
+        if(currentFitness>bestFitness){
+            best = &deadGladiatorList1[i];
+            bestFitness = currentFitness;
+
+        }
+    }
+
+    for (int i = 0; i < deadGladiatorList2.size(); ++i) {
+        currentFitness = deadGladiatorList2[i].getFitness();
+        if(currentFitness>bestFitness){
+            best = &deadGladiatorList2[i];
+            bestFitness = currentFitness;
+
+        }
+    }
+    return best;
+
+}
+
 
 int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
 
@@ -248,7 +290,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
             //_____________________________________________________________DIBUJAR LOS TEXTOS
             //Stats.update_gladiator_stats(window, );
             Stats.update_gen_stats(window, generation, ROUND_TIME - roundClock.getElapsedTime().asSeconds());
-            Stats.update_gladiator_stats(window, &gladiatorList2[2]);
+            Stats.update_gladiator_stats(window, getBest());
             window.display();
 
 

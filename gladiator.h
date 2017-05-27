@@ -63,6 +63,7 @@ private:
     float shield = 0;
     bool fighting = false;
     bool runningAway = false;
+    bool onMatriz = true;
     int kills=0;
     sf::Vector2f shovePos;
     std::list<sf::Vector2f> labyrinthDirections;
