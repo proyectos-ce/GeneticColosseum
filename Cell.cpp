@@ -14,11 +14,11 @@ Cell::Cell(int i, int j) {
     this->previous = nullptr;
     this->obstacle = false;
     this->tower = false;
-    if (rand() % 100 < 10){
-        this->obstacle = true;
-    }
-    if (((i == 0 && j == 0) || (i == 4 && j == N - 1) ) || ((i == 0 && j == N - 1) || (i == 4 && j == 0) ))
-        this->obstacle = false;
+//    if (rand() % 100 < 10){
+//        this->obstacle = true;
+//    }
+//    if (((i == 0 && j == 0) || (i == 4 && j == N - 1) ) || ((i == 0 && j == N - 1) || (i == 4 && j == 0) ))
+//        this->obstacle = false;
 
 }
 

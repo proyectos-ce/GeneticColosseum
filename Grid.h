@@ -30,7 +30,7 @@ public:
     std::vector<Cell*> path;
     std::vector<Cell*> openSet;
     std::vector<Cell*> towerCells;
-
+    std::vector<Cell*> obstacleCells;
     void printPath();
     std::vector<sf::Vector2f*> getPixelPath();
     void generatePixelPath();
