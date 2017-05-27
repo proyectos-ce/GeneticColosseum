@@ -35,26 +35,26 @@ bool Gladiator::defend(int damage , sf::Vector2f attackerPos)
 void Gladiator::attack(Gladiator* closest)
 {
     if(attackClock.getElapsedTime().asMilliseconds() > dna.genes[AttackWaitTime]*5){
-            //std::list<Gladiator>::iterator it = closest.begin();
-            if( closest->defend( getDamage()/2.f, getPosition() ) ){
-                increaseFitness(5);
-            }
-            attackClock.restart();
+        //std::list<Gladiator>::iterator it = closest.begin();
+        if( closest->defend( getDamage()/1.5, getPosition() ) ){
+            increaseFitness(5);
+        }
+        attackClock.restart();
 
     }
 }
 
 void Gladiator::calcVariables()
 {
-     setSpeed(MAXSPEED-MAXSPEED*0.6*(dna.genes[Weight]/100.f));
-     setDamage(dna.genes[Attack]+dna.genes[Attack]*(0.3*dna.genes[Weight]/100.f));
-     setShield(dna.genes[Shield]+dna.genes[Shield]*(0.3*dna.genes[Weight]/100.f));
+    setSpeed(MAXSPEED-MAXSPEED*0.6*(dna.genes[Weight]/100.f));
+    setDamage(dna.genes[Attack]+dna.genes[Attack]*(0.3*dna.genes[Weight]/100.f));
+    setShield(dna.genes[Shield]+dna.genes[Shield]*(0.3*dna.genes[Weight]/100.f));
 
 }
 
 void Gladiator::increaseFitness(int value)
 {
- dna.setFitness(dna.getFitness()+value);
+    dna.setFitness(dna.getFitness()+value);
 }
 
 std::vector<Gladiator> *Gladiator::getGladiatorsList() const
@@ -76,13 +76,22 @@ bool Gladiator::move(sf::Vector2f movement, bool checkBorders)
         nextPos.y = sprite.getGlobalBounds().top + movement.y;
 
         if(! (borders.contains(nextPos.x, nextPos.y) &&
-                borders.contains(nextPos.x+ sprite.getGlobalBounds().width, nextPos.y+sprite.getGlobalBounds().height) ) ){
+              borders.contains(nextPos.x+ sprite.getGlobalBounds().width, nextPos.y+sprite.getGlobalBounds().height) ) ){
             movement.x=0;
             movement.y=0;
             result= true;
         }
     }
-        sprite.move(movement);
+    sprite.move(movement);
+    /*
+    if(movement.x != 0){
+        if(movement.x > 0){
+            sprite.setScale(0.1,0.1);
+        }
+        else{
+            sprite.setScale(-0.1,0.1);
+        }
+    }*/
     return result;
 }
 
@@ -139,24 +148,19 @@ void Gladiator::update()
     else if(runningAway && moveTo(shovePos, true, 2)){
         runningAway=false;
     }
-    else{
-
-
+    else if (hasClosest(dna.genes[AttackRadius]/5,1)){
         std::vector<Gladiator*> closest = getClosest(dna.genes[AttackRadius]/5,1);
         if(closest.size()>0){
-        moveTo(closest[0]->getPosition(),   true);
-        attack(closest[0]);
-        }
-        else{
-            std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*10,1);
-            if(closest2.size()>0){
-
-                moveTo(closest2[0]->getPosition(),   true);
-            }
+            moveTo(closest[0]->getPosition(),   true);
+            attack(closest[0]);
         }
     }
-
-
+    else if( hasClosest(dna.genes[GladiatorDetectionRadius]*10,1) ){
+        std::vector<Gladiator*> closest2 = getClosest(dna.genes[GladiatorDetectionRadius]*10,1);
+        if(closest2.size()>0){
+            moveTo(closest2[0]->getPosition(),   true);
+        }
+    }
 }
 
 DNA Gladiator::getDna() const
@@ -200,20 +204,22 @@ void Gladiator::setShield(float value)
     shield = value;
 }
 
+bool Gladiator::hasClosest(float radius, int amount)
+{
+    float newDistance=0;
+    bool result = false;
+    for (int i = 0; i < gladiatorsList->size(); ++i) {
+        newDistance =  calcDistance(gladiatorsList->operator [](i).getPosition());
+        if(newDistance<radius ){
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 std::vector<Gladiator* > Gladiator::getClosest(float radius, int amount)
 {
-    /*
-    std::vector<Gladiator *> closest;
-    for (int i = 0; i < gladiatorsList->size(); ++i) {
-        closest.push_back(&gladiatorsList->operator [](i));
-
-    }
-    sortByDistance(&closest);
-    if(amount>closest.size()){
-        amount=closest.size();
-    }
-    return std::vector<Gladiator*>(closest.begin(),closest.begin()+amount);
-    */
     std::vector<Gladiator *> closest;
     float distance = 10000;
     float newDistance=0;
@@ -245,8 +251,8 @@ void Gladiator::setSpeed(float value)
 
 float Gladiator::calcDistance(sf::Vector2f pos){
     sf::Vector2f distance;
-//    distance.x = sprite.getPosition().x - pos.x;
-//    distance.y = sprite.getPosition().y - pos.y;
+    //    distance.x = sprite.getPosition().x - pos.x;
+    //    distance.y = sprite.getPosition().y - pos.y;
     //float distance = 0;
     distance.x = getPosition().x - pos.x;
     distance.y = getPosition().y - pos.y;
@@ -265,26 +271,26 @@ void Gladiator::sortByDistance(std::vector<Gladiator*> *list, int left, int righ
     Gladiator *tmp;
     //int pivot = list->operator []((left + right) / 2).getFitness();
     float pivot = calcDistance(list->operator[]((left + right) / 2)->getPosition());
-    /* partition */
-    while (i <= j) {
-        //while (list->operator [](i).getFitness() < pivot)
-        while ( calcDistance(list->operator [](i)->getPosition()) < pivot)
+            /* partition */
+            while (i <= j) {
+            //while (list->operator [](i).getFitness() < pivot)
+            while ( calcDistance(list->operator [](i)->getPosition()) < pivot)
             i++;
-        //while (list->operator [](j).getFitness() > pivot)
-        while (calcDistance(list->operator [](j)->getPosition()) > pivot)
-            j--;
-        if (i <= j) {
-            tmp = list->operator [](i);
-            list->operator [](i) = list->operator [](j);
-            list->operator [](j)= tmp;
-            i++;
-            j--;
-        }
-    };
-    /* recursion */
-    if (left < j)
-        sortByDistance(list, left, j);
-    if (i < right)
-        sortByDistance(list, i, right);
+    //while (list->operator [](j).getFitness() > pivot)
+    while (calcDistance(list->operator [](j)->getPosition()) > pivot)
+        j--;
+    if (i <= j) {
+        tmp = list->operator [](i);
+        list->operator [](i) = list->operator [](j);
+        list->operator [](j)= tmp;
+        i++;
+        j--;
+    }
+};
+/* recursion */
+if (left < j)
+sortByDistance(list, left, j);
+if (i < right)
+sortByDistance(list, i, right);
 
 }
