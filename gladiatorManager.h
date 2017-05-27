@@ -76,6 +76,7 @@ public:
     void setBorders(const sf::FloatRect &value);
     void setObstacles(Grid* grid, sf::RenderWindow &window);
     void drawObstacles(sf::RenderWindow &window);
+    void setTowers(Grid* grid);
 };
 
 #endif //GENETICCOLOSSEUM_GLADIATORMANAGER_H

@@ -24,12 +24,12 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setPosition(450,0);
 
 
-    for (int i=0; i<5;i++){
-        towerlist_izq.push_back(torre);
-    }
-    for (int i=0; i<5;i++){
-        towerlist_der.push_back(torre);
-    }
+//    for (int i=0; i<5;i++){
+//        towerlist_izq.push_back(torre);
+//    }
+//    for (int i=0; i<5;i++){
+//        towerlist_der.push_back(torre);
+//    }
 
 ///obstaculos
     crystalTexture.loadFromFile("Resources/crystal.png");
@@ -108,6 +108,18 @@ void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
         }
     }
 
+void gladiatorManager::setTowers(Grid *grid) {
+    for(int i =0; i<grid->towerCells.size();i++){
+        if(grid->gridSide.compare("R") == 0){
+            towerlist_izq.push_back(torre);
+            towerlist_izq[towerlist_izq.size()-1].set_place(-6+(grid->towerCells[i]->col*45),138+(grid->obstacleCells[i]->row*45));
+        }else{
+            towerlist_der.push_back(torre);
+            towerlist_der[towerlist_der.size()-1].set_place(1144+(grid->towerCells[i]->col*45),138+(grid->obstacleCells[i]->row*45));
+        }
+    }
+}
+
 
 void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
     for(int i=0; i<spritesArray.size(); i++){
@@ -122,6 +134,8 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
     setObstacles(rightGrid, window);
     setObstacles(leftGrid, window);
+    setTowers(rightGrid);
+    setTowers(leftGrid);
 
     std::cout <<ip<<std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
@@ -292,20 +306,20 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
                 }
             }
 
-            for(int i = towerlist_izq.size()-1; i>=0; --i){
-                int x = -6 + (i*45);
-                int y = 138 + (i*45);
-                towerlist_izq[i].set_place(x,y);
-            }
+//            for(int i = towerlist_izq.size()-1; i>=0; --i){
+//                int x = -6 + (i*45);
+//                int y = 138 + (i*45);
+//                towerlist_izq[i].set_place(x,y);
+//            }
             for(int i = towerlist_izq.size()-1; i>=0; --i){
                 towerlist_izq[i].update(window);
             }
 
-            for(int i = towerlist_der.size()-1; i>=0; --i){
-                int x = 1144 + (i*45);
-                int y = 138 + (i*45);
-                towerlist_der[i].set_place(x,y);
-            }
+//            for(int i = towerlist_der.size()-1; i>=0; --i){
+//                int x = 1144 + (i*45);
+//                int y = 138 + (i*45);
+//                towerlist_der[i].set_place(x,y);
+//            }
 
             for(int i = towerlist_der.size()-1; i>=0; --i){
                 towerlist_der[i].update(window);
