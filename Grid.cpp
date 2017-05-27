@@ -25,12 +25,12 @@ Grid::Grid(char side) {
         end = grid[4][0];
     }
 
-    while (towerCells.size() <  20){
+    while (towerCells.size() <  15){
         int randRow = rand() % 10;
         int randCol = rand() % 10;
-        if (std::find(towerCells.begin(), towerCells.end(), grid[randRow][randCol]) == towerCells.end() && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+        if (std::find(towerCells.begin(), towerCells.end(), grid[randRow][randCol]) == towerCells.end() && grid[randRow][randCol]->obstacle == 0 && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
             towerCells.push_back(grid[randRow][randCol]);
-            grid[randRow][randCol]->obstacle = true;
+            grid[randRow][randCol]->tower = true;
         }
     }
 }

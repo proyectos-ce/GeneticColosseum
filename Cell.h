@@ -20,6 +20,7 @@ public:
     int f;
     int g;
     int h;
+    bool tower;
     bool obstacle;
     Cell* previous;
     Cell* neighbors[8];
