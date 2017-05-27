@@ -13,12 +13,12 @@ const int W = 1200;
 const int H = 800;
 int main(int argc, char *argv[])
 {
-    Grid grid;
-    grid.printGrid();
-    grid.solve();
-    grid.generatePixelPath();
+//    Grid grid;
+//    grid.printGrid();
+//    grid.solve();
+//    grid.generatePixelPath();
 //    std::cout << grid.getPixelPath();
-    grid.printPath();
+//    grid.printPath();
     time_t t;
     srand((unsigned) time(&t));
     sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum");
