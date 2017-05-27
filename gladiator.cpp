@@ -214,13 +214,6 @@ void Gladiator::setLabyrinthDirections(const std::list<sf::Vector2f> &value)
 }
 
 
-void Gladiator::importLabyrinthDirections(const std::vector<sf::Vector2f> &value)
-{
-    labyrinthDirections.clear();
-        for (int i = 0; i < value.size(); ++i) {
-        labyrinthDirections.push_back(value[i]);
-    }
-}
 
 bool Gladiator::isAlive()
 {

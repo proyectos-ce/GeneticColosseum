@@ -48,15 +48,12 @@ public:
     sf::Sprite coliseumSprite;
 
 
-    sf::Texture intiZoneTexture;
-    sf::Texture coliseumTexture;
+
     sf::Texture trunkTexture;
     sf::Texture crystalTexture;
     sf::Texture holeTexture;
 
-    sf::Sprite intiZoneSpriteL;
-    sf::Sprite intiZoneSpriteR;
-    sf::Sprite coliseumSprite;
+
 
     Grid* rightGrid;
     Grid* leftGrid;
