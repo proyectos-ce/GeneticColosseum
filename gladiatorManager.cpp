@@ -112,7 +112,7 @@ int gladiatorManager::run(sf::RenderWindow &window) {
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                window.close();
+                exit(0);
             if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 return 0;
         }

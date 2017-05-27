@@ -65,7 +65,7 @@ int menu::run(sf::RenderWindow &window) {
     while(running){
         while(window.pollEvent(event)){
             if(event.type == sf::Event::Closed){
-                return -1;
+                exit(0);
             }
 
             if(event.type == sf::Event::TextEntered && menuNumber ==0){
