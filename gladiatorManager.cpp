@@ -30,15 +30,12 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setPosition(450,0);
 
 
-    towerlist_izq.push_back(izq_torre1);
-    towerlist_izq.push_back(izq_torre2);
-    towerlist_izq[0].set_place(-6,138);
-    towerlist_izq[1].set_place(-6+45,138+45);
-
-    towerlist_der.push_back(izq_torre1);
-    towerlist_der.push_back(izq_torre2);
-    towerlist_der[0].set_place(1150-6,138);
-    towerlist_der[1].set_place(1150-6+45,138+45);
+    for (int i=0; i<5;i++){
+        towerlist_izq.push_back(torre);
+    }
+    for (int i=0; i<5;i++){
+        towerlist_der.push_back(torre);
+    }
 
 
     Gtexture1.setSmooth(true);
@@ -252,9 +249,22 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
                     gladiatorList2.erase(gladiatorList2.begin()+i);
                 }
             }
+
+            for(int i = towerlist_izq.size()-1; i>=0; --i){
+                int x = -6 + (i*45);
+                int y = 138 + (i*45);
+                towerlist_izq[i].set_place(x,y);
+            }
             for(int i = towerlist_izq.size()-1; i>=0; --i){
                 towerlist_izq[i].update(window);
             }
+
+            for(int i = towerlist_der.size()-1; i>=0; --i){
+                int x = 1144 + (i*45);
+                int y = 138 + (i*45);
+                towerlist_der[i].set_place(x,y);
+            }
+
             for(int i = towerlist_der.size()-1; i>=0; --i){
                 towerlist_der[i].update(window);
             }

@@ -53,6 +53,8 @@ public:
 
     stats Stats = stats();
 
+    Tower torre = Tower();
+
     Tower izq_torre1 = Tower ();
     Tower izq_torre2 = Tower ();
 
