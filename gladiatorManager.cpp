@@ -78,7 +78,7 @@ void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
         }
 
 
-//    grid->generatePixelPath();
+
 
 
     }
