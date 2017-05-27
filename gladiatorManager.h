@@ -16,12 +16,15 @@
 #include "screen.h"
 #include "stats.h"
 #include "http.h"
+#include "Grid.h"
+
 
 #define ROUND_TIME 20
 class gladiatorManager : public screen{
 public:
     sf::Clock roundClock;
     gladiatorManager();
+
     time_t t;
 
     sf::Texture bg1Tex;
@@ -45,6 +48,21 @@ public:
     sf::Sprite coliseumSprite;
 
 
+    sf::Texture intiZoneTexture;
+    sf::Texture coliseumTexture;
+    sf::Texture trunkTexture;
+    sf::Texture crystalTexture;
+    sf::Texture holeTexture;
+
+    sf::Sprite intiZoneSpriteL;
+    sf::Sprite intiZoneSpriteR;
+    sf::Sprite coliseumSprite;
+
+    Grid* rightGrid;
+    Grid* leftGrid;
+
+
+
     sf::Clock cycleClock;
 
     std::vector<DNA> resultPop;
@@ -53,11 +71,15 @@ public:
 
     PopulationManager population;
 
+    std::vector<sf::Texture> texturesArray;
+    std::vector<sf::Sprite> spritesArray;
 
     int run(sf::RenderWindow &window, std::string& ip);
 
     sf::FloatRect getBorders() const;
     void setBorders(const sf::FloatRect &value);
+    void setObstacles(Grid* grid, sf::RenderWindow &window);
+    void drawObstacles(sf::RenderWindow &window);
 };
 
 #endif //GENETICCOLOSSEUM_GLADIATORMANAGER_H

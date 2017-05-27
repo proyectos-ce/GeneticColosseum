@@ -2,6 +2,7 @@
 // Created by jimena on 18/05/17.
 //
 
+#include <zconf.h>
 #include "gladiatorManager.h"
 #include "stats.h"
 
@@ -9,9 +10,11 @@ gladiatorManager::gladiatorManager() {
     srand((unsigned) time(&t));
 
 
+
     bg1Tex.loadFromFile("Resources/Background.jpg");
     bg1Sprite.setTexture(bg1Tex);
     bg1Sprite.setPosition(0,0);
+
 
     intiZoneTexture.loadFromFile("Resources/cuadricula.jpg");
     coliseumTexture.loadFromFile("Resources/Coliseum.jpg");
@@ -23,6 +26,15 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setPosition(450,0);
 
 
+///obstaculos
+    crystalTexture.loadFromFile("Resources/crystal.png");
+    trunkTexture.loadFromFile("Resources/trunk.png");
+    holeTexture.loadFromFile("Resources/hole.png");
+
+    texturesArray.push_back(crystalTexture);
+    texturesArray.push_back(holeTexture);
+    texturesArray.push_back(trunkTexture);
+
 
     Gtexture1.setSmooth(true);
     Gtexture1.loadFromFile("Resources/bronze.png");
@@ -33,6 +45,7 @@ gladiatorManager::gladiatorManager() {
 
     population.inicializePopulation(10);
 
+
     borders.height = 800;
     borders.width=700;
     borders.top=10;
@@ -41,6 +54,7 @@ gladiatorManager::gladiatorManager() {
     Http::server = "http://geneticserver.herokuapp.com";
     dnaList1 = Http::getFirst(1);
     dnaList2 = Http::getFirst(2);
+
 
 }
 
@@ -85,7 +99,44 @@ void gladiatorManager::setBorders(const sf::FloatRect &value)
     borders = value;
 }
 
+
+void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
+    grid->solve(&gladiator);
+    for(int i =0; i<grid->obstacleCells.size(); i++){
+            sf::Sprite obstacleSprite;
+            obstacleSprite.setTexture(texturesArray[0 + (rand() % (2 + 1))]);
+            if(grid->gridSide.compare("R") == 0)
+                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45+1150, grid->obstacleCells[i]->row*45+175);
+            else{
+                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45, grid->obstacleCells[i]->row*45+175);
+
+            }
+            spritesArray.push_back(obstacleSprite);
+        }
+
+
+
+
+
+    }
+
+
+void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
+    for(int i=0; i<spritesArray.size(); i++){
+        window.draw(spritesArray[i]);
+    }
+}
+
+
+
 int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
+
+    rightGrid = new Grid('R');
+    leftGrid = new Grid('L');
+
+    setObstacles(rightGrid, window);
+    setObstacles(leftGrid, window);
+
     std::cout <<ip<<std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
 
@@ -114,38 +165,33 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
         for (int j = 0; j <dnaList1.size() ; ++j) {
             labyrinthDirections.clear();
-            //for (int var = 0; var < 4; ++var) {
-            //    labyrinthDirections.push_back(  sf::Vector2f( 100  ,100    ) );
-             //   labyrinthDirections.push_back(  sf::Vector2f( 100  ,400    ) );
-           // }
+
 
             labyrinthDirections.push_back(  sf::Vector2f( 500  ,100    ) );
             gladiator.setDna(dnaList1[j]);
             gladiator.setTexture(&Gtexture1);
             gladiator.sprite.setScale(0.1,0.1);
-            gladiator.setPosition(sf::Vector2f(300,300));
-            gladiator.setLabyrinthDirections(labyrinthDirections);
+            gladiator.setPosition(sf::Vector2f(1555,220));
+//            gladiator.setLabyrinthDirections(labyrinthDirections);
+            rightGrid->solve(&gladiator);
             gladiator.setGladiatorsList(&gladiatorList2);
             gladiator.setBorders(borders);
             gladiatorList1.push_back(gladiator);
         }
 
-        for (int j = 0; j <dnaList2.size() ; ++j) {
-            labyrinthDirections.clear();
-            //for (int var = 0; var < 4; ++var) {
-            //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,100    ) );
-            //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,400    ) );
-            //}
-            labyrinthDirections.push_back(  sf::Vector2f( 800  ,100) );
+
+        for (int j = 0; j < dnaList2.size() ; ++j) {
             gladiator.setDna(dnaList2[j]);
             gladiator.setTexture(&Gtexture2);
             gladiator.sprite.setScale(0.1,0.1);
-            gladiator.setPosition(sf::Vector2f(900,300));
-            gladiator.setLabyrinthDirections(labyrinthDirections);
+            gladiator.setPosition(sf::Vector2f(0,220));
+            leftGrid->solve(&gladiator);
             gladiator.setGladiatorsList(&gladiatorList1);
             gladiator.setBorders(borders);
             gladiatorList2.push_back(gladiator);
         }
+
+    }
 
 
 
@@ -153,12 +199,48 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         roundClock.restart();
         while(roundClock.getElapsedTime().asSeconds()<ROUND_TIME){
             sf::Event event;
-            while (window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed)
-                    exit(0);
-                if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-                    return 0;
+          
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                exit(0);
+            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                return 0;
+        }
+        window.clear(sf::Color::Black);
+
+        window.draw(bg1Sprite);
+        window.draw(coliseumSprite);
+        window.draw(intiZoneSpriteR);
+        window.draw(intiZoneSpriteL);
+        drawObstacles(window);
+//        window.draw(crystalSprite);
+//        window.draw(trunkSprite);
+//        window.draw(holeSprite);
+
+//        sf::Texture texture;
+//        if (!texture.loadFromFile("Resources/fondo.png"))
+//        {
+//            // error...
+//        }
+//        sf::Sprite sprite;
+//        sprite.setTexture(texture);
+//
+//        window.draw(sprite);
+
+
+
+        //gladiatorList.clear();
+
+        //window.draw(bg1Sprite);
+        for (int i = 0; i < gladiatorList1.size(); ++i) {
+            if(gladiatorList1[i].isAlive()){
+                gladiatorList1[i].update();
+                gladiatorList1[i].draw(window);
+            }
+            else{
+                gladiatorList1[i].setPosition(sf::Vector2f(100000,100000));
+
             }
             window.clear(sf::Color::Black);
             window.draw(bg1Sprite);
@@ -205,3 +287,5 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
 
     return 0;
 }
+
+

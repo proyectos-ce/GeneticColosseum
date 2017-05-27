@@ -8,6 +8,7 @@
 menu::menu() {}
 
 int menu::run(sf::RenderWindow &window, std::string &ip) {
+
     sf::Event event;
 
     sf::Texture backgroundTexture;
@@ -88,7 +89,9 @@ int menu::run(sf::RenderWindow &window, std::string &ip) {
                             menuNumber = 1;
                         break;
                     case sf::Keyboard::Return:
+
                         if(menuNumber==1){
+
                             ip = ipDirection;
                             return 1;
                     /*    if (menuNumber == 1) {
