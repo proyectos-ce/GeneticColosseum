@@ -222,7 +222,7 @@ void Grid::solve(Gladiator* gladiator){
         }
     }
 
-    printPath();
+    //printPath();
     generatePixelPath();
     gladiator->importLabyrinthDirections(pixelPath);
 
