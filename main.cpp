@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     
     std::vector<screen*> screens;
     int screen = 0;
+    std::string ip = "";
 
     sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum");
     app.setFramerateLimit(60);
@@ -34,8 +35,7 @@ int main(int argc, char *argv[])
 
 
     while(screen >=0){
-        screen = screens[screen]->run(app);
-
+        screen = screens[screen]->run(app, ip);
     }
 
     return EXIT_SUCCESS;

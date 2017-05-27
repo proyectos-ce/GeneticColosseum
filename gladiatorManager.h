@@ -47,7 +47,7 @@ public:
 
     PopulationManager population;
 
-    int run(sf::RenderWindow &window);
+    int run(sf::RenderWindow &window, std::string& ip);
 
     sf::FloatRect getBorders() const;
     void setBorders(const sf::FloatRect &value);

@@ -63,7 +63,8 @@ void gladiatorManager::setBorders(const sf::FloatRect &value)
     borders = value;
 }
 
-int gladiatorManager::run(sf::RenderWindow &window) {
+int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
+    std::cout <<ip<<std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
 
     for (int j = 0; j <10 ; ++j) {
