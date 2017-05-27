@@ -20,7 +20,7 @@ gladiatorManager::gladiatorManager() {
     coliseumSprite.setTexture(coliseumTexture);
     coliseumSprite.setPosition(450,0);
 
-    
+
 
     Gtexture1.setSmooth(true);
     Gtexture1.loadFromFile("Resources/bronze.png");
