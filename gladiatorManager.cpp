@@ -5,14 +5,18 @@
 #include <zconf.h>
 #include "gladiatorManager.h"
 #include "stats.h"
+#include <SFML/Audio.hpp>
 
 gladiatorManager::gladiatorManager() {
     srand((unsigned) time(&t));
 
 
+
+
     bg1Tex.loadFromFile("Resources/Background.jpg");
     bg1Sprite.setTexture(bg1Tex);
     bg1Sprite.setPosition(0, 0);
+
 
 
     intiZoneTexture.loadFromFile("Resources/cuadricula.jpg");
@@ -139,6 +143,10 @@ void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
 
 int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
 
+    sf::Music backgroundMusic;
+    backgroundMusic.openFromFile("Resources/background.ogg");
+    backgroundMusic.setLoop(true);
+
     rightGrid = new Grid('R');
     leftGrid = new Grid('L');
 
@@ -161,6 +169,8 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 return 0;
         }
+
+        backgroundMusic.play();
 
 
         gladiatorList1.clear();
@@ -201,8 +211,9 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
             sf::Event event;
 
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::Closed)
+                if (event.type == sf::Event::Closed){
                     exit(0);
+                }
                 if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                     return 0;
             }
