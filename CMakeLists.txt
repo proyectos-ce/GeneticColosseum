@@ -4,7 +4,7 @@ project(GeneticColosseum)
 set(CMAKE_CXX_STANDARD 14)
 
 
-set(SOURCE_FILES main.cpp dna.cpp dna.h gladiator.h gladiator.cpp populationmanager.h populationmanager.cpp entity.h entity.cpp animation.h animation.cpp gladiatorManager.h gladiatorManager.cpp screen.h screens.h menu.h menu.cpp Grid.cpp Grid.h Cell.cpp Cell.h tower.h tower.cpp stats.cpp stats.h)
+set(SOURCE_FILES main.cpp dna.cpp dna.h gladiator.h gladiator.cpp populationmanager.h populationmanager.cpp entity.h entity.cpp animation.h animation.cpp gladiatorManager.h gladiatorManager.cpp screen.h screens.h menu.h menu.cpp Grid.cpp Grid.h Cell.cpp Cell.h tower.h tower.cpp stats.cpp stats.h bullet.cpp bullet.h)
 
 
 set(EXECUTABLE_NAME "GeneticColosseum")

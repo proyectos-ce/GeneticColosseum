@@ -51,6 +51,7 @@ public:
     double getFitness();
     int getKills() const;
     void setKills(int value);
+    bool fighting = false;
 
 private:
     sf::Clock attackClock;
@@ -59,7 +60,7 @@ private:
     float speed = 0;
     float damage = 0;
     float shield = 0;
-    bool fighting = false;
+
     bool runningAway = false;
     int kills=0;
     sf::Vector2f shovePos;

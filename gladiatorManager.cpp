@@ -306,25 +306,33 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
                 }
             }
 
-//            for(int i = towerlist_izq.size()-1; i>=0; --i){
-//                int x = -6 + (i*45);
-//                int y = 138 + (i*45);
-//                towerlist_izq[i].set_place(x,y);
+
+
+            //for(int i = towerlist_izq.size()-1; i>=0; --i){
+             // towerlist_izq[i].attack(towerlist_izq[i].getClosest(100,&gladiatorList1)[0]);
+             //bool hola = towerlist_izq[i].getClosest(100,&gladiatorList1)[0]->fighting;
+              //  towerlist_izq[i].attack(hola);
+                //}
+//
+//            for(int i = towerlist_der.size()-1; i>=0; --i){
+//                towerlist_der[i].attack(towerlist_der[i].getClosest(100,&gladiatorList2)[0]);
 //            }
+//
+//
+
+
             for(int i = towerlist_izq.size()-1; i>=0; --i){
                 towerlist_izq[i].update(window);
             }
 
-//            for(int i = towerlist_der.size()-1; i>=0; --i){
-//                int x = 1144 + (i*45);
-//                int y = 138 + (i*45);
-//                towerlist_der[i].set_place(x,y);
-//            }
 
             for(int i = towerlist_der.size()-1; i>=0; --i){
                 towerlist_der[i].update(window);
             }
-           // torre2.update(window);
+
+
+
+
             //_____________________________________________________________DIBUJAR LOS TEXTOS
             //Stats.update_gladiator_stats(window, );
             Stats.update_gen_stats(window,1,1);

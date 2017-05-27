@@ -114,8 +114,6 @@ bool Gladiator::moveTo(sf::Vector2f pos, bool checkBorders, float speedMultiplie
 
     sf::Vector2f movent(0,0);
     if(calcDistance(pos)>getSpeed()){
-        //std::cout << "DIRIGIENDOSE a " << pos.x << ", " << pos.y << " estoy en " << getPosition().x  << ", " << getPosition().y << " y falta " << calcDistance(pos) << std::endl;
-        //result = false;
         float catX =   pos.x - getPosition().x;
         float catY =  pos.y -getPosition().y ;
         movent.x = getSpeed()*(catX/(fabs(catX)+fabs(catY)))*speedMultiplier;
