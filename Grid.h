@@ -25,27 +25,27 @@ public:
     Cell* end;
     void printGrid();
     void addNeighbors();
-    void solve(Gladiator gladiator);
+    void solve(Gladiator* gladiator);
     void remove(Cell*);
     std::vector<Cell*> path;
     std::vector<Cell*> openSet;
     std::vector<Cell*> towerCells;
     std::vector<Cell*> obstacleCells;
     void printPath();
-    std::vector<sf::Vector2f*> getPixelPath();
+    std::vector<sf::Vector2f> getPixelPath();
     void generatePixelPath();
 private:
 
     std::vector<Cell*> closedSet;
-    std::vector<sf::Vector2f*> pixelPath;
+    std::vector<sf::Vector2f> pixelPath;
 
 
     bool contains(std::vector<Cell *, std::allocator<Cell *>> vector, Cell *cell);
 
-    int heuristic(Cell *a, Cell *b, Gladiator gladiator);
+    int heuristic(Cell *a, Cell *b, Gladiator* gladiator);
 
 
-
+    void repositionEnemies();
 };
 
 

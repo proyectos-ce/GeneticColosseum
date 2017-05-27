@@ -44,6 +44,43 @@ Grid::Grid(char side) {
     }
 }
 
+void Grid::repositionEnemies(){
+    int i, j;
+    for (i = 0; i < obstacleCells.size(); i++){
+        obstacleCells[i]->obstacle = false;
+    }
+    for (i = 0; i < towerCells.size(); i++){
+        towerCells[i]->tower = false;
+    }
+    obstacleCells.clear();
+    towerCells.clear();
+
+    while (towerCells.size() <  15){
+        int randRow = rand() % 10;
+        int randCol = rand() % 10;
+        if (std::find(towerCells.begin(), towerCells.end(), grid[randRow][randCol]) == towerCells.end() && grid[randRow][randCol]->obstacle == 0 && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+            towerCells.push_back(grid[randRow][randCol]);
+            grid[randRow][randCol]->tower = true;
+        }
+    }
+    while (obstacleCells.size() <  15){
+        int randRow = rand() % 10;
+        int randCol = rand() % 10;
+        if (std::find(obstacleCells.begin(), obstacleCells.end(), grid[randRow][randCol]) == obstacleCells.end() && grid[randRow][randCol]->tower == 0 && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+            obstacleCells.push_back(grid[randRow][randCol]);
+            grid[randRow][randCol]->obstacle = true;
+        }
+    }
+    for(i = 0; i < 10; i++){
+        for (j = 0; j < 10; j++){
+            grid[i][j]->previous = nullptr;
+            grid[i][j]->h = 0;
+            grid[i][j]->g = 0;
+            grid[i][j]->f = 0;
+        }
+    }
+
+}
 
 
 void Grid::remove(Cell* cell){
@@ -66,8 +103,8 @@ bool Grid::contains(std::vector<Cell*> vector, Cell* cell){
     return false;
 }
 
-int Grid::heuristic(Cell* a, Cell* b, Gladiator gladiator){
-    return abs((b->row-a->row)*gladiator.dna.genes[VericalCost])+abs((b->col-a->col)*gladiator.dna.genes[HorizontalCost]);
+int Grid::heuristic(Cell* a, Cell* b, Gladiator* gladiator){
+    return abs((b->row-a->row)*gladiator->dna.genes[VericalCost])+abs((b->col-a->col)*gladiator->dna.genes[HorizontalCost]);
 }
 
 void Grid::addNeighbors(){
@@ -116,13 +153,17 @@ void Grid::addNeighbors(){
 }
 
 
-void Grid::solve(Gladiator gladiator){
+void Grid::solve(Gladiator* gladiator){
     bool notSolved = true;
+    path.clear();
+    pixelPath.clear();
     this->openSet.push_back(start);
     int i;
     int winner = 0;
     while(notSolved) {
         if (openSet.size() > 0) {
+            if (winner >= openSet.size())
+                winner--;
             for (i = 0; i < openSet.size(); i++){
                 if (openSet[i]->f < openSet[winner]->f){
                     winner = i;
@@ -148,7 +189,7 @@ void Grid::solve(Gladiator gladiator){
                 if (current->neighbors[i] != nullptr){
                     Cell* neighbor = current->neighbors[i];
 
-                    if (!contains(closedSet, neighbor) && !neighbor->obstacle){
+                    if (!contains(closedSet, neighbor) && !neighbor->obstacle && !neighbor->tower){
                         int tempG = current->g + 1;
 
                         if (contains(openSet, neighbor)){
@@ -171,9 +212,19 @@ void Grid::solve(Gladiator gladiator){
             }
 
         } else {
-            // no solution
+            repositionEnemies();
+            path.clear();
+            pixelPath.clear();
+            openSet.clear();
+            openSet.push_back(start);
+            winner = 0;
+            closedSet.clear();
         }
     }
+
+    printPath();
+    generatePixelPath();
+    gladiator->importLabyrinthDirections(pixelPath);
 
 
 }
@@ -194,16 +245,24 @@ void Grid::printPath(){
     for (i = 0; i < path.size(); i++){
         std::cout << "[" << path[i]->row << ", " << path[i]->col << "], ";
     }
+    std::cout <<"done"<< std::endl;
 }
 
 void Grid::generatePixelPath(){
     int i;
+    int startX = 30, startY = 215;
+    if (gridSide == "R")
+        startX += 1140;
+    else{
+
+    }
+
     for (i = 0; i < path.size(); i++) {
-        pixelPath.push_back(new sf::Vector2f(path[i]->col * 45, 175 + path[i]->row * 45));
+        pixelPath.push_back(sf::Vector2f(startX + path[i]->col * 45, startY + path[i]->row * 45));
     }
 }
 
-std::vector<sf::Vector2f *> Grid::getPixelPath() {
+std::vector<sf::Vector2f> Grid::getPixelPath() {
     return pixelPath;
 }
 
