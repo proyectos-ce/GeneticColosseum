@@ -29,6 +29,7 @@ gladiatorManager::gladiatorManager() {
     crystalTexture.loadFromFile("Resources/crystal.png");
     trunkTexture.loadFromFile("Resources/trunk.png");
     holeTexture.loadFromFile("Resources/hole.png");
+    towerTexture.loadFromFile("Resources/tower.png");
 
     texturesArray.push_back(crystalTexture);
     texturesArray.push_back(holeTexture);
@@ -94,7 +95,25 @@ sf::FloatRect gladiatorManager::getBorders() const {
 void gladiatorManager::setBorders(const sf::FloatRect &value) {
     borders = value;
 }
+void gladiatorManager::setTowers(Grid *grid, sf::RenderWindow &window) {
+    grid->solve(&gladiator);
+    for(int i =0; i<grid->towerCells.size(); i++){
+        sf::Sprite towerSprite;
+        towerSprite.setTexture(towerTexture);
+        if (grid->gridSide.compare("R") == 0)
+            towerSprite.setPosition(grid->towerCells[i]->col * 45 + 1150, grid->towerCells[i]->row * 45 + 175);
+        else {
+            towerSprite.setPosition(grid->towerCells[i]->col * 45, grid->towerCells[i]->row * 45 + 175);
+        }
+        towersArray.push_back(towerSprite);
+    }
+}
 
+void gladiatorManager::drawTowers(sf::RenderWindow &window) {
+    for (int i = 0; i < towersArray.size(); i++) {
+        window.draw(towersArray[i]);
+    }
+}
 
 void gladiatorManager::setObstacles(Grid *grid, sf::RenderWindow &window) {
     grid->solve(&gladiator);
@@ -108,8 +127,6 @@ void gladiatorManager::setObstacles(Grid *grid, sf::RenderWindow &window) {
         }
         spritesArray.push_back(obstacleSprite);
     }
-
-
 }
 
 
@@ -169,6 +186,8 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
 
     setObstacles(rightGrid, window);
     setObstacles(leftGrid, window);
+    setTowers(rightGrid, window);
+    setTowers(leftGrid, window);
 
     std::cout << ip << std::endl;
     std::list<sf::Vector2f> labyrinthDirections;
@@ -236,6 +255,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string &ip) {
             window.draw(intiZoneSpriteR);
             window.draw(intiZoneSpriteL);
             drawObstacles(window);
+            drawTowers(window);
 
 
             for (int i = gladiatorList1.size() - 1; i >= 0; --i) {

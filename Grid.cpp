@@ -252,7 +252,7 @@ void Grid::generatePixelPath(){
     int i;
     int startX = 30, startY = 215;
     if (gridSide == "R")
-        startX += 1140;
+        startX += 1185;
 
     if (gridSide == "R"){
         pixelPath.push_back(sf::Vector2f(startX - 45, startY + 4 * 45));

@@ -52,6 +52,7 @@ public:
     sf::Texture trunkTexture;
     sf::Texture crystalTexture;
     sf::Texture holeTexture;
+    sf::Texture towerTexture;
 
 
 
@@ -70,6 +71,7 @@ public:
 
     std::vector<sf::Texture> texturesArray;
     std::vector<sf::Sprite> spritesArray;
+    std::vector<sf::Sprite> towersArray;
 
     int run(sf::RenderWindow &window, std::string& ip);
 
@@ -79,6 +81,9 @@ public:
     void drawObstacles(sf::RenderWindow &window);
 
     Gladiator *getBest();
+
+    void setTowers(Grid* grid, sf::RenderWindow &window);
+    void drawTowers(sf::RenderWindow &window);
 };
 
 #endif //GENETICCOLOSSEUM_GLADIATORMANAGER_H
