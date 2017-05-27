@@ -22,7 +22,7 @@ public:
     sf::Text Kills;
 
     void update_gen_stats(sf::RenderWindow &window, int generacion, int tiempo_restante);
-    void update_gladiator_stats(sf::RenderWindow &window, Gladiator &gladiator);
+    void update_gladiator_stats(sf::RenderWindow &window, Gladiator *gladiator);
 };
 
 

@@ -52,11 +52,11 @@ void stats::update_gen_stats(sf::RenderWindow &window, int numero_generacion, in
 
 
 }
-void stats::update_gladiator_stats(sf::RenderWindow &window, Gladiator &gladiator) {
-    std::string glad_nombre="Mejor Gladiador: "+std::to_string(0);
-    std::string glad_vida="Vida: "+std::to_string(0);
-    std::string glad_fitness="Fitness: "+std::to_string(0);
-    std::string glad_kills="Eliminaciones: "+std::to_string(0);
+void stats::update_gladiator_stats(sf::RenderWindow &window, Gladiator *gladiator) {
+    std::string glad_nombre="Mejor Gladiador: "+gladiator->dna.getNameHASH();
+    std::string glad_vida="Vida: "+std::to_string(gladiator->getLife());
+    std::string glad_fitness="Fitness: "+std::to_string(gladiator->getFitness());
+    std::string glad_kills="Eliminaciones: "+std::to_string(gladiator->getKills());
 
     Gladiador.setString(glad_nombre);
     Vida.setString(glad_vida);

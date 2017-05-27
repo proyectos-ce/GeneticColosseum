@@ -19,6 +19,7 @@
 
 class gladiatorManager : public screen{
 public:
+    sf::Clock roundClock;
     gladiatorManager();
     time_t t;
 
@@ -27,11 +28,15 @@ public:
 
     std::vector<Gladiator> gladiatorList1;
     std::vector<Gladiator> gladiatorList2;
+    std::vector<Gladiator> deadGladiatorList1;
+    std::vector<Gladiator> deadGladiatorList2;
+    std::vector<DNA> dnaList1;
+    std::vector<DNA> dnaList2;
     Gladiator gladiator;
     sf::Texture Gtexture1;
     sf::Texture Gtexture2;
     sf::FloatRect borders;
-
+    void extractDNA();
     sf::Texture intiZoneTexture;
     sf::Texture coliseumTexture;
     sf::Sprite intiZoneSpriteL;
@@ -46,6 +51,7 @@ public:
     stats Stats = stats();
 
     PopulationManager population;
+
 
     int run(sf::RenderWindow &window, std::string& ip);
 
