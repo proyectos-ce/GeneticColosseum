@@ -198,7 +198,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
         window.draw(coliseumSprite);
         window.draw(intiZoneSpriteR);
         window.draw(intiZoneSpriteL);
-        drawObstacles(window);
+
 //        window.draw(crystalSprite);
 //        window.draw(trunkSprite);
 //        window.draw(holeSprite);
@@ -273,7 +273,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
             window.draw(intiZoneSpriteL);
 
 
-
+            drawObstacles(window);
 
             for (int i =  gladiatorList1.size()-1; i >=0; --
                  i) {

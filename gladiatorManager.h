@@ -65,13 +65,6 @@ public:
 
     Tower torre = Tower();
 
-    Tower izq_torre1 = Tower ();
-    Tower izq_torre2 = Tower ();
-
-
-    Tower der_torre1 = Tower ();
-    Tower der_torre2 = Tower ();
-
     PopulationManager population;
 
     std::vector<sf::Texture> texturesArray;
