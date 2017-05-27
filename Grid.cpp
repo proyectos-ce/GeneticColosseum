@@ -260,6 +260,7 @@ void Grid::generatePixelPath(){
     for (i = 0; i < path.size(); i++) {
         pixelPath.push_back(sf::Vector2f(startX + path[i]->col * 45, startY + path[i]->row * 45));
     }
+
 }
 
 std::vector<sf::Vector2f> Grid::getPixelPath() {
