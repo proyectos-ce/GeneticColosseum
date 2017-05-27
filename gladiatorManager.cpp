@@ -119,7 +119,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
              //   labyrinthDirections.push_back(  sf::Vector2f( 100  ,400    ) );
            // }
 
-            //labyrinthDirections.push_back(  sf::Vector2f( 500  ,100    ) );
+            labyrinthDirections.push_back(  sf::Vector2f( 500  ,100    ) );
             gladiator.setDna(dnaList1[j]);
             gladiator.setTexture(&Gtexture1);
             gladiator.sprite.setScale(0.1,0.1);
@@ -136,7 +136,7 @@ int gladiatorManager::run(sf::RenderWindow &window, std::string& ip) {
             //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,100    ) );
             //    labyrinthDirections.push_back(  sf::Vector2f( 1200  ,400    ) );
             //}
-            //labyrinthDirections.push_back(  sf::Vector2f( 800  ,100) );
+            labyrinthDirections.push_back(  sf::Vector2f( 800  ,100) );
             gladiator.setDna(dnaList2[j]);
             gladiator.setTexture(&Gtexture2);
             gladiator.sprite.setScale(0.1,0.1);
