@@ -24,7 +24,18 @@ Grid::Grid(char side) {
         start = grid[0][N-1];
         end = grid[4][0];
     }
+
+    while (towerCells.size() <  20){
+        int randRow = rand() % 10;
+        int randCol = rand() % 10;
+        if (std::find(towerCells.begin(), towerCells.end(), grid[randRow][randCol]) == towerCells.end() && grid[randRow][randCol] != start && grid[randRow][randCol] != end ){
+            towerCells.push_back(grid[randRow][randCol]);
+            grid[randRow][randCol]->obstacle = true;
+        }
+    }
 }
+
+
 
 void Grid::remove(Cell* cell){
     int i;
@@ -186,6 +197,8 @@ void Grid::generatePixelPath(){
 std::vector<sf::Vector2f *> Grid::getPixelPath() {
     return pixelPath;
 }
+
+
 
 
 

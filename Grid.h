@@ -27,6 +27,8 @@ public:
     void remove(Cell*);
     std::vector<Cell*> path;
     std::vector<Cell*> openSet;
+    std::vector<Cell*> towerCells;
+
     void printPath();
     std::vector<sf::Vector2f*> getPixelPath();
     void generatePixelPath();
