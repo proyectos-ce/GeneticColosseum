@@ -8,7 +8,7 @@ Http::Http() {}
 
 
 std::string Http::server;
-int Http::port = 8081;
+int Http::port = 80;
 
 
 std::string Http::prepareData(std::vector<DNA> data) {
@@ -39,6 +39,11 @@ std::string Http::prepareData(std::vector<DNA> data) {
 
     result += "]";
     return result;
+}
+
+void Http::start(int population, std::vector<DNA> &vector) {
+    std::thread t1(getFirst, population);
+    t1.join();
 }
 
 

@@ -12,6 +12,7 @@
 #include <functional>
 #include "picojson.h"
 #include "dna.h"
+#include <thread>
 
 class Http {
 
@@ -25,6 +26,8 @@ public:
     static std::vector<DNA> getNext(int population, std::vector<DNA> data);
 
     static std::vector<DNA> getFirst(int population);
+	
+	static void start(int population, std::vector<DNA> &vector);
 
 private:
 
@@ -41,6 +44,7 @@ private:
     static std::vector<DNA> parseDNAJson(std::string json);
 
     static int port;
+	
 };
 
 

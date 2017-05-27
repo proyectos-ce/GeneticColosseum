@@ -22,8 +22,11 @@ int main(int argc, char *argv[])
     
     std::vector<screen*> screens;
     int screen = 0;
+    
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 0;
 
-    sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum");
+    sf::RenderWindow app(sf::VideoMode(W, H), "Genetic Colosseum", sf::Style::Default, settings);
     app.setFramerateLimit(60);
 
     menu menuScreen;

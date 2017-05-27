@@ -4,6 +4,7 @@
 #include <iostream>
 #include "menu.h"
 #include "http.h"
+#include "LoadingDialog.h"
 
 menu::menu() {}
 
@@ -23,8 +24,7 @@ int menu::run(sf::RenderWindow &window) {
 
     bool running = true;
     int menuNumber = 0;
-    //std::string ipDirection = "http://geneticserver.herokuapp.com";
-    std::string ipDirection = "http://localhost/";
+    std::string ipDirection = "http://geneticserver.herokuapp.com";
 
     backgroundTexture.loadFromFile("Resources/Background.jpg");
     backgroundSprite.setTexture(backgroundTexture);
@@ -62,8 +62,15 @@ int menu::run(sf::RenderWindow &window) {
     startLabel.setCharacterSize(40);
     startLabel.setString("Start");
     startLabel.setPosition(20, 250);
-
-
+    
+    
+	
+    
+    
+	LoadingDialog load(window);
+	load.hide();
+    
+    
     while(running){
         while(window.pollEvent(event)){
             if(event.type == sf::Event::Closed){
@@ -91,18 +98,16 @@ int menu::run(sf::RenderWindow &window) {
                     case sf::Keyboard::Return:
                         if (menuNumber == 1) {
                             Http::server = ipDirection;
+							
+							load.show();
 
 
-                            std::vector<DNA> result = Http::getFirst(1);
-
-
-                            std::vector<DNA> result2 = Http::getNext(1, result);
-
-
-                            std::cout << result.at(0).getNameHASH() << std::endl;
-
-
-                            std::cout << result2.at(0).getNameHASH() << std::endl;
+                            std::vector<DNA> *result = new std::vector<DNA>();
+							
+							Http::start(1, *result);
+         
+							
+							//return(1);
 
                         }
                     default:
@@ -133,7 +138,12 @@ int menu::run(sf::RenderWindow &window) {
         window.draw(ipLabel);
         window.draw(ipStatus);
         window.draw(startLabel);
-
+		
+		
+		load.draw();
+        
+        
+        
         window.display();
     }
 

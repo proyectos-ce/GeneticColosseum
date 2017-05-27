@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 3.5C)
 project(GeneticColosseum)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthread")
 
 
-set(SOURCE_FILES main.cpp dna.cpp dna.h gladiator.h gladiator.cpp populationmanager.h populationmanager.cpp entity.h entity.cpp animation.h animation.cpp gladiatorManager.h gladiatorManager.cpp screen.h screens.h menu.h menu.cpp Grid.cpp Grid.h Cell.cpp Cell.h http.cpp http.h picojson.h)
+set(SOURCE_FILES main.cpp dna.cpp dna.h gladiator.h gladiator.cpp populationmanager.h populationmanager.cpp entity.h entity.cpp animation.h animation.cpp gladiatorManager.h gladiatorManager.cpp screen.h screens.h menu.h menu.cpp Grid.cpp Grid.h Cell.cpp Cell.h http.cpp http.h picojson.h LoadingDialog.cpp LoadingDialog.h)
 
 
 set(EXECUTABLE_NAME "GeneticColosseum")
