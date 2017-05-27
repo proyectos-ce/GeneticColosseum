@@ -259,6 +259,14 @@ void Gladiator::sortByDistance(std::vector<Gladiator*> *list){
     sortByDistance( list, 0, gladiatorsList->size()-1);
 }
 
+void Gladiator::importLabyrinthDirections(const std::vector<sf::Vector2f> &value)
+{
+    labyrinthDirections.clear();
+    for (int i = value.size()-1; i >=0; i--) {
+        labyrinthDirections.push_back(value[i]);
+    }
+}
+
 void Gladiator::sortByDistance(std::vector<Gladiator*> *list, int left, int right)
 {
     int i = left, j = right;

@@ -45,6 +45,7 @@ public:
 
     sf::FloatRect getBorders() const;
     void setBorders(const sf::FloatRect &value);
+    void importLabyrinthDirections(const std::vector<sf::Vector2f, std::allocator<sf::Vector2f>> &value);
 
 private:
     sf::Clock attackClock;
@@ -82,6 +83,8 @@ private:
 
     void sortByDistance(std::vector<Gladiator *> *list);
     void sortByDistance(std::vector<Gladiator *> *list, int left, int right);
+
+
 };
 
 
