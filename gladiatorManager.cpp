@@ -69,13 +69,15 @@ void gladiatorManager::setObstacles(Grid* grid, sf::RenderWindow &window){
             sf::Sprite obstacleSprite;
             obstacleSprite.setTexture(texturesArray[0 + (rand() % (2 + 1))]);
             if(grid->gridSide.compare("R") == 0)
-                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45, grid->obstacleCells[i]->row*45+175);
-            else{
                 obstacleSprite.setPosition(grid->obstacleCells[i]->col*45+1150, grid->obstacleCells[i]->row*45+175);
+            else{
+                obstacleSprite.setPosition(grid->obstacleCells[i]->col*45, grid->obstacleCells[i]->row*45+175);
             }
             spritesArray.push_back(obstacleSprite);
         }
     }
+
+
 
 
 void gladiatorManager::drawObstacles(sf::RenderWindow &window) {
